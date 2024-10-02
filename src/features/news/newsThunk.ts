@@ -4,14 +4,14 @@ import { subMonths, format } from "date-fns";
 
 export const fetchAllNews = createAsyncThunk(
   "news/fetchAllNews",
-  async (_, { rejectWithValue }) => {
+  async ({ page = 1 }: { page?: number }, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_NEWS_BASE_URL}?api-key=${
           import.meta.env.VITE_NEWS_API_KEY
-        }`
+        }&page=${page}`
       );
-      console.log("response", response);
+      // localStorage.setItem("news", JSON.stringify(response.data.results));
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -21,13 +21,17 @@ export const fetchAllNews = createAsyncThunk(
 
 export const fetchNewsIndonesia = createAsyncThunk(
   "news/fetchNewsIndonesia",
-  async (_, { rejectWithValue }) => {
+  async (page: number = 1, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_NEWS_SEARCH_URL}?q=indonesia&api-key=${
-          import.meta.env.VITE_NEWS_API_KEY
-        }`
+        `${
+          import.meta.env.VITE_NEWS_SEARCH_URL
+        }?q=indonesia&page=${page}&api-key=${import.meta.env.VITE_NEWS_API_KEY}`
       );
+      // localStorage.setItem(
+      //   "news-indonesia",
+      //   JSON.stringify(response.data.response.docs)
+      // );
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -38,21 +42,22 @@ export const fetchNewsIndonesia = createAsyncThunk(
 // get data last 1 month
 export const fetchNewsProgramming = createAsyncThunk(
   "news/fetchNewsProgramming",
-  async (_, { rejectWithValue }) => {
+  async (page: number = 1, { rejectWithValue }) => {
     const dateNow = new Date();
     const dateLastMonth = subMonths(dateNow, 1);
 
-    const dateNowFormat = format(dateNow, "yyyy-MM-dd");
-    const dateLastMonthFormat = format(dateLastMonth, "yyyy-MM-dd");
+    const dateNowFormat = format(dateNow, "yyyyMMdd");
+    const dateLastMonthFormat = format(dateLastMonth, "yyyyMMdd");
 
     try {
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_NEWS_SEARCH_URL
-        }?q=programming&begin_date=${dateNowFormat}&end_date=${dateLastMonthFormat}&api-key=${
-          import.meta.env.VITE_NEWS_API_KEY
-        }`
-      );
+      const apiUrl = `${
+        import.meta.env.VITE_NEWS_SEARCH_URL
+      }?q=programming&page=${page}&begin_date=${dateLastMonthFormat}&end_date=${dateNowFormat}&api-key=${
+        import.meta.env.VITE_NEWS_API_KEY
+      }`;
+
+      const response = await axios.get(apiUrl);
+
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);

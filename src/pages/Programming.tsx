@@ -1,7 +1,62 @@
-const Programming = () => {
-  return (
-    <div>Programming</div>
-  )
-}
+import { FC, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { fetchNewsProgramming } from "../features/news/newsThunk";
+import NewsCardSearchList from "../components/news/NewsCardSearchList";
+import NewsPagination from "../components/news/NewsPagination";
 
-export default Programming
+const Programming: FC = () => {
+  const dispatch = useDispatch();
+
+  const { searchNews, status, errorMessage, totalPages, currentPage } =
+    useSelector((state: RootState) => state.searchNews);
+
+  const [page, setPage] = useState(currentPage || 0);
+
+  useEffect(() => {
+    if (status === "idle" || page !== currentPage) {
+      dispatch(fetchNewsProgramming(page + 1) as any);
+    }
+  }, [dispatch, page, currentPage, status]);
+
+  const handlePageChange = (pageNumber: number) => {
+    if (status === "loading") return;
+    setPage(pageNumber);
+    dispatch(fetchNewsProgramming(pageNumber + 1) as any);
+  };
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (status === "failed") {
+    return <p>Error: {errorMessage}</p>;
+  }
+
+  return (
+    <div className="flex flex-col justify-center items-center mt-5">
+      <h1 className="text-3xl font-bold mb-4">Programming Last 30 Day News</h1>
+      {searchNews.length > 0 ? (
+        <>
+          <NewsCardSearchList
+            api={{
+              response: {
+                docs: searchNews,
+              },
+            }}
+            onSaved={() => {}}
+          />
+          <NewsPagination
+            page={page}
+            handlePageChange={handlePageChange}
+            totalPages={totalPages}
+          />
+        </>
+      ) : (
+        <p>No news available.</p>
+      )}
+    </div>
+  );
+};
+
+export default Programming;

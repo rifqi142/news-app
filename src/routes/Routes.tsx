@@ -3,7 +3,7 @@ import RootLayout from "./RootLayout/RootLayout";
 import Home from "../pages/Home";
 import Indonesia from "../pages/Indonesia";
 import Programming from "../pages/Programming";
-import Saved from "../pages/Saved";
+import SavedNews from "../pages/SavedNews";
 
 const Routes = (): RouteObject[] => {
   return [
@@ -14,7 +14,8 @@ const Routes = (): RouteObject[] => {
         { index: true, element: <Home /> },
         { path: "Indonesia", element: <Indonesia /> },
         { path: "Programming", element: <Programming /> },
-        { path: "Saved", element: <Saved /> },
+        { path: "Saved", element: <SavedNews /> },
+        { path: "/search/:query", element: <Home /> },
       ],
     },
   ];
