@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { RootState } from "../store/store";
 import { navbarLinks } from "../constants";
+import InputSearch from "./InputSearch";
 
 const Navbar: FC = () => {
   const { news } = useSelector((state: RootState) => state.news);
@@ -100,7 +101,7 @@ const Navbar: FC = () => {
             </ul>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <input
               type="text"
               className="px-3 py-1 text-black rounded-lg w-40 md:w-full"
@@ -109,7 +110,8 @@ const Navbar: FC = () => {
             <button className="bg-yellow-500 text-black px-3 py-1 rounded-lg transition duration-200 ease-in-out hover:bg-yellow-400">
               Search
             </button>
-          </div>
+          </div> */}
+          <InputSearch />
           {/* Burger Menu for mobile view */}
           <div className="lg:hidden">
             <img

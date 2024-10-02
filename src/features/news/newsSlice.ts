@@ -6,9 +6,10 @@ import {
   fetchNewsProgramming,
   fetchNewsSearch,
 } from "./newsThunk";
+import { NewsType } from "../../types/type";
 
 interface NewsState {
-  news: any[];
+  news: NewsType[];
   status: string;
   errorMessage: string;
 }
@@ -23,8 +24,10 @@ export const newsSlice = createSlice({
   name: "news",
   initialState,
   reducers: {
-    savedNews: (state, action: PayloadAction<string>) => {
-      const saveNewsPaper = state.news.find((news) => news === action.payload);
+    savedNews: (state, action: PayloadAction<NewsType>) => {
+      const saveNewsPaper = state.news.find(
+        (news) => news.web_url === action.payload.web_url
+      );
       if (!saveNewsPaper) {
         state.news.push(action.payload);
       }
@@ -39,7 +42,7 @@ export const newsSlice = createSlice({
       })
       .addCase(fetchAllNews.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
-        state.news = action.payload.data.response.docs;
+        state.news = action.payload.data.results;
       })
       .addCase(fetchAllNews.rejected, (state, action) => {
         state.status = Status.FAILED;
@@ -54,7 +57,7 @@ export const newsSlice = createSlice({
       })
       .addCase(fetchNewsIndonesia.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
-        state.news = action.payload.data.response.docs;
+        state.news = action.payload.data.results;
       })
       .addCase(fetchNewsIndonesia.rejected, (state, action) => {
         state.status = Status.FAILED;
@@ -69,7 +72,7 @@ export const newsSlice = createSlice({
       })
       .addCase(fetchNewsProgramming.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
-        state.news = action.payload.data.response.docs;
+        state.news = action.payload.data.results;
       })
       .addCase(fetchNewsProgramming.rejected, (state, action) => {
         state.status = Status.FAILED;
@@ -84,7 +87,7 @@ export const newsSlice = createSlice({
       })
       .addCase(fetchNewsSearch.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
-        state.news = action.payload.data.response.docs;
+        state.news = action.payload.data.results;
       })
       .addCase(fetchNewsSearch.rejected, (state, action) => {
         state.status = Status.FAILED;

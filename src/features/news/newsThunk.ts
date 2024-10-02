@@ -7,10 +7,11 @@ export const fetchAllNews = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_NEWS_BASE_URL}?api-key${
+        `${import.meta.env.VITE_NEWS_BASE_URL}?api-key=${
           import.meta.env.VITE_NEWS_API_KEY
         }`
       );
+      console.log("response", response);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -23,7 +24,7 @@ export const fetchNewsIndonesia = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_NEWS_SEARCH_URL}?q=indonesia&api-key${
+        `${import.meta.env.VITE_NEWS_SEARCH_URL}?q=indonesia&api-key=${
           import.meta.env.VITE_NEWS_API_KEY
         }`
       );
@@ -65,7 +66,7 @@ export const fetchNewsSearch = createAsyncThunk(
   async (search: string, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_NEWS_SEARCH_URL}?q=${search}&api-key${
+        `${import.meta.env.VITE_NEWS_SEARCH_URL}?q=${search}&api-key=${
           import.meta.env.VITE_NEWS_API_KEY
         }`
       );
