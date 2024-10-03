@@ -6,6 +6,7 @@ import { savedNews, setSavedNews } from "../features/news/newsSlice";
 import NewsCardList from "../components/news/NewsCardAllList";
 import NewsPagination from "../components/news/NewsPagination";
 import { AllNewsType } from "../types/type";
+import { setCurrentPage } from "../features/news/newsSlice";
 
 const Home: FC = () => {
   const dispatch = useDispatch();
@@ -15,13 +16,19 @@ const Home: FC = () => {
   );
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchAllNews({ page: currentPage }) as any);
+    if (news.length === 0) {
+      dispatch(fetchAllNews({ offset: ((currentPage ?? 1) - 1) * 20 }) as any);
     }
-  }, [dispatch, currentPage]);
+  }, [dispatch, currentPage, news.length]);
 
   const handlePageChange = (newPage: number) => {
-    dispatch(fetchAllNews({ page: newPage }) as any);
+    newPage += 1;
+    console.log("currentPage", currentPage);
+    console.log("newPage", newPage);
+    if (newPage >= 1 && newPage <= totalPages) {
+      dispatch(fetchAllNews({ offset: (newPage - 1) * 20 }) as any);
+      dispatch(setCurrentPage(newPage));
+    }
   };
 
   const handleSaveNews = (data: AllNewsType) => {
@@ -50,7 +57,7 @@ const Home: FC = () => {
     );
 
     localStorage.setItem("savedNews", JSON.stringify(updatedArticles));
-    dispatch(setSavedNews(updatedArticles)); // Update Redux state with the filtered articles
+    dispatch(setSavedNews(updatedArticles));
   };
 
   if (status === "loading") {
@@ -78,7 +85,7 @@ const Home: FC = () => {
 
           {totalPages > 1 && (
             <NewsPagination
-              page={currentPage || 1}
+              page={currentPage ?? 1}
               handlePageChange={handlePageChange}
               totalPages={totalPages}
             />

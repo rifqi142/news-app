@@ -1,5 +1,5 @@
 import { NewsPaginationProps } from "../../types/type";
-
+import { setCurrentPage } from "../../features/news/newsSlice";
 const NewsPagination = ({
   page,
   handlePageChange,
@@ -10,6 +10,7 @@ const NewsPagination = ({
     let startPage = Math.max(0, page - Math.floor(maxPagesToShow / 2));
     let endPage = Math.min(totalPages, startPage + maxPagesToShow);
 
+    // Adjust startPage if at the end
     if (endPage - startPage < maxPagesToShow) {
       startPage = Math.max(0, endPage - maxPagesToShow);
     }
@@ -35,7 +36,6 @@ const NewsPagination = ({
       >
         Previous
       </button>
-
       {/* Render Page Numbers */}
       {getPageNumbers().map((pageNumber) => (
         <button
@@ -51,7 +51,6 @@ const NewsPagination = ({
           {pageNumber + 1}
         </button>
       ))}
-
       {/* Next Button */}
       <button
         className={`px-4 py-2 text-sm font-medium border rounded-md 
@@ -68,5 +67,4 @@ const NewsPagination = ({
     </div>
   );
 };
-
 export default NewsPagination;

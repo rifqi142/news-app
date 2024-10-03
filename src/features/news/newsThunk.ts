@@ -4,12 +4,13 @@ import { subMonths, format } from "date-fns";
 
 export const fetchAllNews = createAsyncThunk(
   "news/fetchAllNews",
-  async ({ page = 1 }: { page?: number }, { rejectWithValue }) => {
+  async ({ offset = 0 }: { offset?: number }, { rejectWithValue }) => {
     try {
+      console.log("offset", offset);
       const response = await axios.get(
         `${import.meta.env.VITE_NEWS_BASE_URL}?api-key=${
           import.meta.env.VITE_NEWS_API_KEY
-        }&page=${page}`
+        }&offset=${offset}&limit=20`
       );
       return response;
     } catch (error: any) {
