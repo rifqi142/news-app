@@ -11,7 +11,6 @@ export const fetchAllNews = createAsyncThunk(
           import.meta.env.VITE_NEWS_API_KEY
         }&page=${page}`
       );
-      // localStorage.setItem("news", JSON.stringify(response.data.results));
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -28,10 +27,6 @@ export const fetchNewsIndonesia = createAsyncThunk(
           import.meta.env.VITE_NEWS_SEARCH_URL
         }?q=indonesia&page=${page}&api-key=${import.meta.env.VITE_NEWS_API_KEY}`
       );
-      // localStorage.setItem(
-      //   "news-indonesia",
-      //   JSON.stringify(response.data.response.docs)
-      // );
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);

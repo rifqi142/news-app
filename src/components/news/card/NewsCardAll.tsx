@@ -9,9 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface NewsCardProps {
   data: AllNewsType;
   onSaved: (data: AllNewsType) => void;
+  onUnSaved: (data: AllNewsType) => void;
 }
 
-const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved }) => {
+const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
   const formattedDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
@@ -25,7 +26,7 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved }) => {
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
-    const savedNews = JSON.parse(sessionStorage.getItem("saved-news") || "[]");
+    const savedNews = JSON.parse(localStorage.getItem("saved-news") || "[]");
     const articleIsSaved = savedNews.some(
       (news: AllNewsType) => news.url === data.url
     );
@@ -33,20 +34,20 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved }) => {
   }, [data.url]);
 
   const handleBookmarkClick = () => {
-    onSaved(data);
-
     setIsSaved((prev) => !prev);
 
-    const savedNews = JSON.parse(sessionStorage.getItem("saved-news") || "[]");
+    const savedNews = JSON.parse(localStorage.getItem("saved-news") || "[]");
 
     if (isSaved) {
       const updatedArticles = savedNews.filter(
         (news: AllNewsType) => news.url !== data.url
       );
-      sessionStorage.setItem("saved-news", JSON.stringify(updatedArticles));
+      localStorage.setItem("saved-news", JSON.stringify(updatedArticles));
+      onUnSaved(data);
     } else {
       savedNews.push(data);
-      sessionStorage.setItem("saved-news", JSON.stringify(savedNews));
+      localStorage.setItem("saved-news", JSON.stringify(savedNews));
+      onSaved(data);
     }
   };
 

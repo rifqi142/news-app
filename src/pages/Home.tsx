@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchAllNews } from "../features/news/newsThunk";
-import { savedNews } from "../features/news/newsSlice";
+import { savedNews, setSavedNews } from "../features/news/newsSlice";
 import NewsCardList from "../components/news/NewsCardAllList";
 import NewsPagination from "../components/news/NewsPagination";
 import { AllNewsType } from "../types/type";
@@ -15,7 +15,9 @@ const Home: FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchAllNews({ page: currentPage }) as any);
+    if (status === "idle") {
+      dispatch(fetchAllNews({ page: currentPage }) as any);
+    }
   }, [dispatch, currentPage]);
 
   const handlePageChange = (newPage: number) => {
@@ -23,11 +25,32 @@ const Home: FC = () => {
   };
 
   const handleSaveNews = (data: AllNewsType) => {
-    dispatch(savedNews(data));
+    const storedSavedNews = JSON.parse(
+      localStorage.getItem("savedNews") || "[]"
+    );
 
-    const saveNews = JSON.parse(sessionStorage.getItem("saved-news") || "[]");
-    saveNews.push(data);
-    sessionStorage.setItem("savedNews", JSON.stringify(savedNews));
+    const isAlreadySaved = storedSavedNews.some(
+      (news: AllNewsType) => news.url === data.url
+    );
+
+    if (!isAlreadySaved) {
+      storedSavedNews.push(data);
+      localStorage.setItem("savedNews", JSON.stringify(storedSavedNews));
+      dispatch(savedNews(data));
+    }
+  };
+
+  const handleUnSaveNews = (data: AllNewsType) => {
+    const storedSavedNews = JSON.parse(
+      localStorage.getItem("savedNews") || "[]"
+    );
+
+    const updatedArticles = storedSavedNews.filter(
+      (news: AllNewsType) => news.url !== data.url
+    );
+
+    localStorage.setItem("savedNews", JSON.stringify(updatedArticles));
+    dispatch(setSavedNews(updatedArticles)); // Update Redux state with the filtered articles
   };
 
   if (status === "loading") {
@@ -50,6 +73,7 @@ const Home: FC = () => {
               },
             }}
             onSaved={handleSaveNews}
+            onUnSaved={handleUnSaveNews}
           />
 
           {totalPages > 1 && (

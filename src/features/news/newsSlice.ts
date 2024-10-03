@@ -26,7 +26,23 @@ export const newsSlice = createSlice({
   initialState,
   reducers: {
     savedNews: (state, action: PayloadAction<AllNewsType>) => {
-      state.savedNews = [...state.savedNews, action.payload];
+      const isAlreadySaved = state.savedNews.some(
+        (news) => news.url === action.payload.url
+      );
+
+      if (!isAlreadySaved) {
+        state.savedNews = [...state.savedNews, action.payload];
+      }
+    },
+
+    unsaveNews: (state, action: PayloadAction<AllNewsType>) => {
+      state.savedNews = state.savedNews.filter(
+        (news) => news.url !== action.payload.url
+      );
+    },
+
+    setSavedNews: (state, action: PayloadAction<AllNewsType[]>) => {
+      state.savedNews = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -51,6 +67,6 @@ export const newsSlice = createSlice({
   },
 });
 
-export const { savedNews } = newsSlice.actions;
+export const { savedNews, setSavedNews, unsaveNews } = newsSlice.actions;
 
 export default newsSlice.reducer;

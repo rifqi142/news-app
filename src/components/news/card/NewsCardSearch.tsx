@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface NewsCardProps {
   data: SearchNewsType;
-  // ganti
   onSaved: (data: SearchNewsType) => void;
 }
 
