@@ -72,8 +72,6 @@ export const searchNewSlice = createSlice({
 
         state.totalPages = action.payload.data.response.meta.hits;
         state.currentPage = action.meta.arg;
-
-        console.log("<<<<< current page", state.currentPage);
       })
       .addCase(fetchNewsIndonesia.rejected, (state, action) => {
         state.status = Status.FAILED;

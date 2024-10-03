@@ -20,8 +20,7 @@ const Indonesia: FC = () => {
   const [page, setPage] = useState(currentPage || 1);
 
   useEffect(() => {
-    console.log("<< indonesia current", currentPage);
-    if (searchNews.length === 0) {
+    if (searchNews.length === 0 || page !== currentPage) {
       dispatch(fetchNewsIndonesia(page - 1) as any);
     }
   }, [dispatch, searchNews.length, page]);
@@ -31,6 +30,7 @@ const Indonesia: FC = () => {
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
+    console.log("pagenumber <<<<<", pageNumber);
     if (status === "loading") return;
     setPage(pageNumber);
     dispatch(fetchNewsIndonesia(pageNumber - 1) as any);
