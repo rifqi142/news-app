@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { SearchNewsType } from "../../../types/type";
 import { Link } from "react-router-dom";
 import noImage from "/assets/no-image.jpg";
@@ -9,9 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface NewsCardProps {
   data: SearchNewsType;
   onSaved: (data: SearchNewsType) => void;
+  onUnSaved: (data: SearchNewsType) => void;
 }
 
-const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved }) => {
+const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
+  const [isSaved, setIsSaved] = useState(false);
   const formattedDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
@@ -20,6 +22,39 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved }) => {
       day: "numeric",
     };
     return new Date(dateString).toLocaleDateString("en-us", options);
+  };
+
+  useEffect(() => {
+    const savedNews = JSON.parse(
+      localStorage.getItem("search-saved-news") || "[]"
+    );
+    const articleIsSaved = savedNews.some(
+      (news: SearchNewsType) => news.web_url === data.web_url
+    );
+    setIsSaved(articleIsSaved);
+  }, [data.web_url]);
+
+  const handleBookmarkClick = () => {
+    setIsSaved((prev) => !prev);
+
+    const savedNews = JSON.parse(
+      localStorage.getItem("search-saved-news") || "[]"
+    );
+
+    if (isSaved) {
+      const updatedArticles = savedNews.filter(
+        (news: SearchNewsType) => news.web_url !== data.web_url
+      );
+      localStorage.setItem(
+        "search-saved-news",
+        JSON.stringify(updatedArticles)
+      );
+      onUnSaved(data);
+    } else {
+      savedNews.push(data);
+      localStorage.setItem("search-saved-news", JSON.stringify(savedNews));
+      onSaved(data);
+    }
   };
 
   return (
@@ -33,16 +68,16 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved }) => {
                 ? `http://www.nytimes.com/${data.multimedia[0].url}`
                 : noImage
             }
-            alt={data.headline.main}
+            alt={data.headline.main ? data.headline.main : data.abstract}
             className="w-full aspect-video object-cover"
           />
         </Link>
         {/* Bookmark Icon */}
         <button
-          onClick={() => onSaved(data)}
+          onClick={handleBookmarkClick}
           className="absolute top-2 right-2 bg-white rounded-full py-2 px-3 shadow-md "
         >
-          <FontAwesomeIcon icon={regularBookmark} />
+          <FontAwesomeIcon icon={isSaved ? solidBookmark : regularBookmark} />
         </button>
       </div>
 
@@ -55,7 +90,7 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved }) => {
             className="hover:text-blue-600 hover:underline"
           >
             <h2 className="text-xl font-bold text-justify line-clamp-2 min-h-[3em]">
-              {data.headline.main}
+              {data.headline.main ? data.headline.main : data.abstract}
             </h2>
           </Link>
         </div>

@@ -6,7 +6,6 @@ export const fetchAllNews = createAsyncThunk(
   "news/fetchAllNews",
   async ({ offset = 0 }: { offset?: number }, { rejectWithValue }) => {
     try {
-      console.log("offset", offset);
       const response = await axios.get(
         `${import.meta.env.VITE_NEWS_BASE_URL}?api-key=${
           import.meta.env.VITE_NEWS_API_KEY

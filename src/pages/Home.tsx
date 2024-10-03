@@ -7,6 +7,7 @@ import NewsCardList from "../components/news/NewsCardAllList";
 import NewsPagination from "../components/news/NewsPagination";
 import { AllNewsType } from "../types/type";
 import { setCurrentPage } from "../features/news/newsSlice";
+import { Status } from "../utils/status";
 
 const Home: FC = () => {
   const dispatch = useDispatch();
@@ -60,11 +61,11 @@ const Home: FC = () => {
     dispatch(setSavedNews(updatedArticles));
   };
 
-  if (status === "loading") {
+  if (status === Status.LOADING) {
     return <p>Loading...</p>;
   }
 
-  if (status === "failed") {
+  if (status === Status.FAILED) {
     return <p>Error: {errorMessage}</p>;
   }
 

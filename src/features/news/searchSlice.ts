@@ -9,6 +9,7 @@ import { SearchNewsType } from "../../types/type";
 
 interface SearchNewsState {
   searchNews: SearchNewsType[];
+  savedSearchNews: SearchNewsType[];
   status: string;
   errorMessage: string;
   totalPages: number;
@@ -17,6 +18,7 @@ interface SearchNewsState {
 
 const initialState: SearchNewsState = {
   searchNews: [],
+  savedSearchNews: [],
   status: Status.IDLE,
   errorMessage: "",
   totalPages: 0,
@@ -24,16 +26,37 @@ const initialState: SearchNewsState = {
 };
 
 export const searchNewSlice = createSlice({
-  name: "news",
+  name: "searchnews",
   initialState,
   reducers: {
-    savedNews: (state, action: PayloadAction<SearchNewsType>) => {
-      const saveNewsPaper = state.searchNews.find(
-        (searchNews) => searchNews.web_url === action.payload.web_url
+    savedSearchNews: (state, action: PayloadAction<SearchNewsType>) => {
+      // const saveNewsPaper = state.searchNews.find(
+      //   (searchNews) => searchNews.web_url === action.payload.web_url
+      // );
+      // if (!saveNewsPaper) {
+      //   state.savedSearchNews = [...state.savedSearchNews, action.payload];
+      // }
+      const isAlreadySaved = state.savedSearchNews.some(
+        (news: SearchNewsType) => news.web_url === action.payload.web_url
       );
-      if (!saveNewsPaper) {
-        state.searchNews.push(action.payload);
+
+      if (!isAlreadySaved) {
+        state.savedSearchNews = [...state.savedSearchNews, action.payload];
       }
+    },
+
+    unsaveNews: (state, action: PayloadAction<SearchNewsType>) => {
+      state.savedSearchNews = state.savedSearchNews.filter(
+        (searchNews) => searchNews.web_url !== action.payload.web_url
+      );
+    },
+
+    setSearchSavedNews: (state, action: PayloadAction<SearchNewsType[]>) => {
+      state.savedSearchNews = action.payload;
+    },
+
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -47,12 +70,15 @@ export const searchNewSlice = createSlice({
         state.status = Status.SUCCESS;
         state.searchNews = action.payload.data.response.docs;
 
-        const totalPages = Math.ceil(
-          action.payload.data.response.meta.hits / 10
-        );
-        state.totalPages = totalPages;
-
+        state.totalPages = action.payload.data.response.meta.hits;
         state.currentPage = action.meta.arg;
+
+        console.log("<<<<< current page", state.currentPage);
+      })
+      .addCase(fetchNewsIndonesia.rejected, (state, action) => {
+        state.status = Status.FAILED;
+        state.errorMessage =
+          action.error.message || "Failed to fetch indonesia news";
       })
 
       // handle fetchNewsProgramming
@@ -63,10 +89,8 @@ export const searchNewSlice = createSlice({
       .addCase(fetchNewsProgramming.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
         state.searchNews = action.payload.data.response.docs;
-        const totalPages = Math.ceil(
-          action.payload.data.response.meta.hits / 10
-        );
-        state.totalPages = totalPages;
+
+        state.totalPages = action.payload.data.response.meta.hits;
         state.currentPage = action.meta.arg;
       })
       .addCase(fetchNewsProgramming.rejected, (state, action) => {
@@ -83,6 +107,9 @@ export const searchNewSlice = createSlice({
       .addCase(fetchNewsSearch.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
         state.searchNews = action.payload.data.response.docs;
+
+        state.totalPages = action.payload.data.response.meta.hits;
+        state.currentPage = parseInt(action.meta.arg, 10);
       })
       .addCase(fetchNewsSearch.rejected, (state, action) => {
         state.status = Status.FAILED;
@@ -92,6 +119,11 @@ export const searchNewSlice = createSlice({
   },
 });
 
-export const { savedNews } = searchNewSlice.actions;
+export const {
+  savedSearchNews,
+  unsaveNews,
+  setCurrentPage,
+  setSearchSavedNews,
+} = searchNewSlice.actions;
 
 export default searchNewSlice.reducer;
