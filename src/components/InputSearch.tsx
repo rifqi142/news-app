@@ -22,6 +22,10 @@ const InputSearch = () => {
     ) {
       event.preventDefault();
       navigate(`/search/${keyword}`);
+
+      if (searchRef.current) {
+        searchRef.current.value = "";
+      }
     }
   };
   return (

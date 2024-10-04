@@ -60,13 +60,36 @@ export const fetchNewsProgramming = createAsyncThunk(
   }
 );
 
-// fetch data from input search
+// export const fetchNewsSearch = createAsyncThunk(
+//   "news/fetchNewsSearch",
+//   async (
+//     { keyword, page = 1 }: { keyword: string; page: number },
+//     { rejectWithValue }
+//   ) => {
+//     try {
+//       const response = await axios.get(
+//         `${import.meta.env.VITE_NEWS_SEARCH_URL}?q=${keyword}&api-key=${
+//           import.meta.env.VITE_NEWS_API_KEY
+//         }`
+//       );
+//       return response;
+//     } catch (error: any) {
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
+
 export const fetchNewsSearch = createAsyncThunk(
   "news/fetchNewsSearch",
-  async (search: string, { rejectWithValue }) => {
+  async (
+    { keyword, page = 1 }: { keyword: string; page: number },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_NEWS_SEARCH_URL}?q=${search}&api-key=${
+        `${
+          import.meta.env.VITE_NEWS_SEARCH_URL
+        }?q=${keyword}&page=${page}&api-key=${
           import.meta.env.VITE_NEWS_API_KEY
         }`
       );

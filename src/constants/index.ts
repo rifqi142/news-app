@@ -15,8 +15,8 @@ export const navbarLinks = [
     label: "Programming",
   },
   {
-    path: "/saved",
-    key: "saved",
-    label: "Saved",
+    path: "/bookmarks",
+    key: "bookmarks",
+    label: "Bookmarks",
   },
 ];

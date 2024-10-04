@@ -107,7 +107,7 @@ export const searchNewSlice = createSlice({
         state.searchNews = action.payload.data.response.docs;
 
         state.totalPages = action.payload.data.response.meta.hits;
-        state.currentPage = parseInt(action.meta.arg, 10);
+        state.currentPage = action.meta.arg.page;
       })
       .addCase(fetchNewsSearch.rejected, (state, action) => {
         state.status = Status.FAILED;

@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { fetchNewsProgramming } from "../features/news/newsThunk";
+import { fetchNewsSearch } from "../features/news/newsThunk";
 import NewsCardSearchList from "../components/news/NewsCardSearchList";
 import NewsPagination from "../components/news/NewsPagination";
 import { SearchNewsType } from "../types/type";
@@ -10,29 +10,39 @@ import {
   setSearchSavedNews,
 } from "../features/news/newsSearchSlice";
 import { Status } from "../utils/status";
+import { useParams, useNavigate } from "react-router-dom"; // Use `useNavigate` instead
 
-const Programming: FC = () => {
+const SearchPage: FC = () => {
+  const { keyword } = useParams<{ keyword: string }>();
+  const navigate = useNavigate(); // Replace `useHistory` with `useNavigate`
   const dispatch = useDispatch();
 
   const { searchNews, status, errorMessage, totalPages, currentPage } =
     useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage || 0);
+  const [page, setPage] = useState(currentPage || 1);
+
+  const formattedKeyword = keyword?.replace(/%20/g, "+");
 
   useEffect(() => {
-    if (searchNews.length === 0 || page !== currentPage) {
-      dispatch(fetchNewsProgramming(page - 1) as any);
+    if (keyword?.includes("%20")) {
+      navigate(`/search/${formattedKeyword}`, { replace: true }); // Replace `history.replace` with `navigate`
     }
-  }, [dispatch, searchNews.length, page]);
+  }, [keyword, formattedKeyword, navigate]);
 
   useEffect(() => {
-    setPage(currentPage || 0);
+    if (formattedKeyword) {
+      dispatch(fetchNewsSearch({ keyword: formattedKeyword, page }) as any);
+    }
+  }, [formattedKeyword, page]);
+
+  useEffect(() => {
+    setPage(currentPage || 1);
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
-    if (status === "loading") return;
+    if (status === Status.LOADING) return;
     setPage(pageNumber);
-    dispatch(fetchNewsProgramming(pageNumber - 1) as any);
   };
 
   const handleSaveNews = (data: SearchNewsType) => {
@@ -74,7 +84,10 @@ const Programming: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-3xl font-bold mb-4">Programming Last 30 Day News</h1>
+      <h1 className="text-3xl font-bold mb-4">
+        Search Results for {formattedKeyword}
+      </h1>
+
       {searchNews.length > 0 ? (
         <>
           <NewsCardSearchList
@@ -99,4 +112,4 @@ const Programming: FC = () => {
   );
 };
 
-export default Programming;
+export default SearchPage;

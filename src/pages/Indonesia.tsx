@@ -8,7 +8,7 @@ import { SearchNewsType } from "../types/type";
 import {
   savedSearchNews,
   setSearchSavedNews,
-} from "../features/news/searchSlice";
+} from "../features/news/newsSearchSlice";
 import { Status } from "../utils/status";
 
 const Indonesia: FC = () => {
@@ -17,7 +17,7 @@ const Indonesia: FC = () => {
   const { searchNews, status, errorMessage, totalPages, currentPage } =
     useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage || 1);
+  const [page, setPage] = useState(currentPage || 0);
 
   useEffect(() => {
     if (searchNews.length === 0 || page !== currentPage) {

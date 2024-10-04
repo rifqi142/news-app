@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import NewsCardAllList from "../components/news/NewsCardAllList";
 import { setSavedNews } from "../features/news/newsSlice";
-import { setSearchSavedNews } from "../features/news/searchSlice";
+import { setSearchSavedNews } from "../features/news/newsSearchSlice";
 import { AllNewsType, SearchNewsType } from "../types/type";
 import NewsCardSearchList from "../components/news/NewsCardSearchList";
 
@@ -58,8 +58,8 @@ const SavedNews: FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-5">
-      <h1 className="text-3xl font-bold mb-4 mt-5">Saved News</h1>
+    <div className="flex flex-col justify-center items-center gap-5">z
+      <h1 className="text-3xl font-bold mb-4 mt-5">News Bookmarks</h1>
 
       {savedNews.length === 0 && savedSearchNews.length === 0 ? (
         <p>No saved news available.</p>

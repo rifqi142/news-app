@@ -11,7 +11,7 @@ const Navbar: FC = () => {
   const [isNavbarShadow, setIsNavbarShadow] = useState<boolean>(false);
   const [activeLink, setActiveLink] = useState<string>("");
 
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
 
   const logoNews = "/assets/news-logo.svg";
   const burgerMenu = "/assets/icon-menu.svg";
@@ -101,16 +101,6 @@ const Navbar: FC = () => {
             </ul>
           </div>
 
-          {/* <div className="flex items-center gap-2">
-            <input
-              type="text"
-              className="px-3 py-1 text-black rounded-lg w-40 md:w-full"
-              placeholder="Search..."
-            />
-            <button className="bg-yellow-500 text-black px-3 py-1 rounded-lg transition duration-200 ease-in-out hover:bg-yellow-400">
-              Search
-            </button>
-          </div> */}
           <InputSearch />
           {/* Burger Menu for mobile view */}
           <div className="lg:hidden">
