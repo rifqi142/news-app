@@ -1,12 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { RootState } from "../store/store";
 import { navbarLinks } from "../constants";
 import InputSearch from "./InputSearch";
 
 const Navbar: FC = () => {
-  const { news } = useSelector((state: RootState) => state.news);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isNavbarShadow, setIsNavbarShadow] = useState<boolean>(false);
   const [activeLink, setActiveLink] = useState<string>("");

@@ -22,7 +22,6 @@ const SavedNews: FC = () => {
     dispatch(setSavedNews(savedNewsFromStorage));
   }, [dispatch]);
 
-  // handle search saved news
   useEffect(() => {
     const savedNewsFromStorage = JSON.parse(
       localStorage.getItem("search-saved-news") || "[]"
@@ -31,7 +30,6 @@ const SavedNews: FC = () => {
     dispatch(setSearchSavedNews(savedNewsFromStorage));
   }, [dispatch]);
 
-  // Unsave news
   const handleUnSaved = (data: AllNewsType) => {
     const savedNewsFromStorage = JSON.parse(
       localStorage.getItem("saved-news") || "[]"
@@ -44,7 +42,6 @@ const SavedNews: FC = () => {
     dispatch(setSavedNews(updatedNews));
   };
 
-  // unsaved search news
   const handleSearchUnSaved = (data: SearchNewsType) => {
     const savedNewsFromStorage = JSON.parse(
       localStorage.getItem("search-saved-news") || "[]"
@@ -58,9 +55,8 @@ const SavedNews: FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-5">z
-      <h1 className="text-3xl font-bold mb-4 mt-5">News Bookmarks</h1>
-
+    <div className="flex flex-col justify-center items-center gap-5">
+      z<h1 className="text-3xl font-bold mb-4 mt-5">News Bookmarks</h1>
       {savedNews.length === 0 && savedSearchNews.length === 0 ? (
         <p>No saved news available.</p>
       ) : (

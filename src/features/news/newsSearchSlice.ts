@@ -30,12 +30,6 @@ export const searchNewSlice = createSlice({
   initialState,
   reducers: {
     savedSearchNews: (state, action: PayloadAction<SearchNewsType>) => {
-      // const saveNewsPaper = state.searchNews.find(
-      //   (searchNews) => searchNews.web_url === action.payload.web_url
-      // );
-      // if (!saveNewsPaper) {
-      //   state.savedSearchNews = [...state.savedSearchNews, action.payload];
-      // }
       const isAlreadySaved = state.savedSearchNews.some(
         (news: SearchNewsType) => news.web_url === action.payload.web_url
       );

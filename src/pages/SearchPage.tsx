@@ -14,7 +14,7 @@ import { useParams, useNavigate } from "react-router-dom"; // Use `useNavigate` 
 
 const SearchPage: FC = () => {
   const { keyword } = useParams<{ keyword: string }>();
-  const navigate = useNavigate(); // Replace `useHistory` with `useNavigate`
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { searchNews, status, errorMessage, totalPages, currentPage } =
@@ -26,7 +26,7 @@ const SearchPage: FC = () => {
 
   useEffect(() => {
     if (keyword?.includes("%20")) {
-      navigate(`/search/${formattedKeyword}`, { replace: true }); // Replace `history.replace` with `navigate`
+      navigate(`/search/${formattedKeyword}`, { replace: true });
     }
   }, [keyword, formattedKeyword, navigate]);
 

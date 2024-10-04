@@ -34,7 +34,6 @@ export const fetchNewsIndonesia = createAsyncThunk(
   }
 );
 
-// get data last 1 month
 export const fetchNewsProgramming = createAsyncThunk(
   "news/fetchNewsProgramming",
   async (page: number = 1, { rejectWithValue }) => {
@@ -59,25 +58,6 @@ export const fetchNewsProgramming = createAsyncThunk(
     }
   }
 );
-
-// export const fetchNewsSearch = createAsyncThunk(
-//   "news/fetchNewsSearch",
-//   async (
-//     { keyword, page = 1 }: { keyword: string; page: number },
-//     { rejectWithValue }
-//   ) => {
-//     try {
-//       const response = await axios.get(
-//         `${import.meta.env.VITE_NEWS_SEARCH_URL}?q=${keyword}&api-key=${
-//           import.meta.env.VITE_NEWS_API_KEY
-//         }`
-//       );
-//       return response;
-//     } catch (error: any) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 export const fetchNewsSearch = createAsyncThunk(
   "news/fetchNewsSearch",
