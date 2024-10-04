@@ -17,22 +17,26 @@ const Programming: FC = () => {
   const { searchNews, status, errorMessage, totalPages, currentPage } =
     useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage || 0);
+  const [page, setPage] = useState(currentPage || 1);
 
   useEffect(() => {
+    console.log("page", page);
+    console.log("Currentpage", currentPage);
     if (searchNews.length === 0 || page !== currentPage) {
-      dispatch(fetchNewsProgramming(page - 1) as any);
+      dispatch(fetchNewsProgramming(page || 1) as any);
     }
-  }, [dispatch, searchNews.length, page]);
+  }, [dispatch, searchNews.length, page, currentPage]);
 
   useEffect(() => {
-    setPage(currentPage || 0);
+    console.log("Current page from Redux:", currentPage);
+    setPage(currentPage || 1);
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
     if (status === "loading") return;
+
     setPage(pageNumber);
-    dispatch(fetchNewsProgramming(pageNumber - 1) as any);
+    dispatch(fetchNewsProgramming(pageNumber) as any);
   };
 
   const handleSaveNews = (data: SearchNewsType) => {

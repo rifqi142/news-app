@@ -56,7 +56,7 @@ const SavedNews: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-5">
-      z<h1 className="text-3xl font-bold mb-4 mt-5">News Bookmarks</h1>
+      <h1 className="text-3xl font-bold mb-4 mt-5">News Bookmarks</h1>
       {savedNews.length === 0 && savedSearchNews.length === 0 ? (
         <p>No saved news available.</p>
       ) : (

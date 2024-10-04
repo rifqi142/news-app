@@ -10,7 +10,7 @@ import {
   setSearchSavedNews,
 } from "../features/news/newsSearchSlice";
 import { Status } from "../utils/status";
-import { useParams, useNavigate } from "react-router-dom"; // Use `useNavigate` instead
+import { useParams, useNavigate } from "react-router-dom";
 
 const SearchPage: FC = () => {
   const { keyword } = useParams<{ keyword: string }>();
@@ -20,7 +20,7 @@ const SearchPage: FC = () => {
   const { searchNews, status, errorMessage, totalPages, currentPage } =
     useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage || 1);
+  const [page, setPage] = useState(currentPage ?? 0 > 0 ? currentPage : 1);
 
   const formattedKeyword = keyword?.replace(/%20/g, "+");
 
@@ -32,12 +32,18 @@ const SearchPage: FC = () => {
 
   useEffect(() => {
     if (formattedKeyword) {
-      dispatch(fetchNewsSearch({ keyword: formattedKeyword, page }) as any);
+      dispatch(
+        fetchNewsSearch({ keyword: formattedKeyword, page: page || 1 }) as any
+      );
     }
   }, [formattedKeyword, page]);
 
   useEffect(() => {
-    setPage(currentPage || 1);
+    if (currentPage ?? 0 > 0) {
+      setPage(currentPage);
+    } else {
+      setPage(1);
+    }
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
@@ -100,7 +106,7 @@ const SearchPage: FC = () => {
             onUnSaved={handleUnSaveNews}
           />
           <NewsPagination
-            page={page}
+            page={page || 1}
             handlePageChange={handlePageChange}
             totalPages={totalPages}
           />
