@@ -57,7 +57,7 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
   };
 
   return (
-    <div className="max-w-sm bg-white rounded-lg shadow-xl overflow-hidden relative">
+    <div className="max-w-sm bg-white rounded-lg shadow-xl overflow-hidden relative mb-5">
       {/* Image with bookmark */}
       <div className="relative">
         <Link to={data.url} target="_blank">
