@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { navbarLinks } from "../constants";
 import InputSearch from "./InputSearch";
 
@@ -52,7 +52,7 @@ const Navbar: FC = () => {
   }, []);
 
   return (
-    <header className="navbar bg-[#1D2124]">
+    <header className="navbar bg-[#004581]">
       <nav
         className={`py-1 md:py-2 px-4 xl:px-10 top-0 w-full z-50 sticky transition-shadow duration-300 ${
           isNavbarShadow ? "shadow-lg" : ""
@@ -77,17 +77,17 @@ const Navbar: FC = () => {
             <ul className="flex gap-4 text-white">
               {navbarLinks.map((link) => (
                 <li className="group relative" key={link.key}>
-                  <Link
+                  <NavLink
                     to={link.path}
                     onClick={() => handleLinkClick(link.key)}
-                    className={`text-xl md:text-lg font-bold pb-1.5 transition-all duration-300 hover:text-blue-500 ${
-                      activeLink === link.key ? "text-blue-500" : ""
+                    className={`text-xl md:text-lg font-bold pb-1.5 transition-all duration-300 hover:text-[#80ebff] ${
+                      activeLink === link.key ? "text-[#80ebff]" : ""
                     }`}
                   >
                     {link.label}
-                  </Link>
+                  </NavLink>
                   <span
-                    className={`block h-[2px] bg-blue-500 absolute bottom-0 left-0 transition-all duration-300 ${
+                    className={`block h-[2px] bg-[#80ebff] absolute bottom-0 left-0 transition-all duration-300 ${
                       activeLink === link.key
                         ? "w-full"
                         : "w-0 group-hover:w-full"

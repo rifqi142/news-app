@@ -11,6 +11,7 @@ import {
 } from "../features/news/newsSearchSlice";
 import { Status } from "../utils/status";
 import { useParams, useNavigate } from "react-router-dom";
+import NewsCardSkeleton from "../components/news/card/NewsCardSkeleton";
 
 const SearchPage: FC = () => {
   const { keyword } = useParams<{ keyword: string }>();
@@ -20,35 +21,32 @@ const SearchPage: FC = () => {
   const { searchNews, status, errorMessage, totalPages, currentPage } =
     useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage ?? 0 > 0 ? currentPage : 1);
-
-  const formattedKeyword = keyword?.replace(/%20/g, "+");
+  const [page, setPage] = useState(currentPage || 0);
 
   useEffect(() => {
-    if (keyword?.includes("%20")) {
-      navigate(`/search/${formattedKeyword}`, { replace: true });
-    }
-  }, [keyword, formattedKeyword, navigate]);
-
-  useEffect(() => {
-    if (formattedKeyword) {
+    if (searchNews.length === 0 || page !== currentPage) {
       dispatch(
-        fetchNewsSearch({ keyword: formattedKeyword, page: page || 1 }) as any
+        fetchNewsSearch({
+          keyword: keyword || "",
+          page: page - 1,
+        }) as any
       );
     }
-  }, [formattedKeyword, page]);
+  }, [keyword, navigate]);
 
   useEffect(() => {
-    if (currentPage ?? 0 > 0) {
-      setPage(currentPage);
-    } else {
-      setPage(1);
-    }
+    setPage(currentPage || 0);
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
     if (status === Status.LOADING) return;
     setPage(pageNumber);
+    dispatch(
+      fetchNewsSearch({
+        keyword: keyword || "",
+        page: pageNumber,
+      }) as any
+    );
   };
 
   const handleSaveNews = (data: SearchNewsType) => {
@@ -81,7 +79,16 @@ const SearchPage: FC = () => {
   };
 
   if (status === Status.LOADING) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <div className="p-5">
+          <div className="flex items-center justify-center text-center">
+            <div className=" mr-4 h-8 bg-gray-300 dark:bg-gray-700 rounded w-40 mb-2"></div>
+          </div>
+          <NewsCardSkeleton />
+        </div>
+      </>
+    );
   }
 
   if (status === Status.FAILED) {
@@ -90,9 +97,7 @@ const SearchPage: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-3xl font-bold mb-4">
-        Search Results for {formattedKeyword}
-      </h1>
+      <h1 className="text-3xl font-bold mb-4">Search Results for {keyword}</h1>
 
       {searchNews.length > 0 ? (
         <>
@@ -106,7 +111,7 @@ const SearchPage: FC = () => {
             onUnSaved={handleUnSaveNews}
           />
           <NewsPagination
-            page={page || 1}
+            page={page}
             handlePageChange={handlePageChange}
             totalPages={totalPages}
           />

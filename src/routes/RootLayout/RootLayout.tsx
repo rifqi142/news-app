@@ -5,12 +5,14 @@ import ScrollUpButton from "../../components/ScrollUpButton";
 
 const RootLayout = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Outlet />
+      <div className="flex-grow">
+        <Outlet />
+      </div>
       <Footer />
       <ScrollUpButton />
-    </>
+    </div>
   );
 };
 

@@ -82,9 +82,7 @@ export const searchNewSlice = createSlice({
         state.status = Status.SUCCESS;
         state.searchNews = action.payload.data.response.docs;
 
-        state.totalPages = Math.ceil(
-          action.payload.data.response.meta.hits / 10
-        );
+        state.totalPages = action.payload.data.response.meta.hits;
         state.currentPage = action.meta.arg;
       })
       .addCase(fetchNewsProgramming.rejected, (state, action) => {
@@ -102,10 +100,8 @@ export const searchNewSlice = createSlice({
         state.status = Status.SUCCESS;
         state.searchNews = action.payload.data.response.docs;
 
-        state.totalPages = Math.ceil(
-          action.payload.data.response.meta.hits / 10
-        );
-        state.currentPage = action.meta.arg.page || 1;
+        state.totalPages = action.payload.data.response.meta.hits;
+        state.currentPage = action.meta.arg.page;
       })
       .addCase(fetchNewsSearch.rejected, (state, action) => {
         state.status = Status.FAILED;

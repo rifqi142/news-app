@@ -7,6 +7,10 @@ export interface HeadlineType<type> {
   main: type;
 }
 
+export interface BylineType {
+  original: string;
+}
+
 export interface AllNewsType {
   title: string;
   abstract: string;
@@ -15,6 +19,8 @@ export interface AllNewsType {
   source: string;
   published_date: string;
   multimedia: MultimediaType[];
+  byline: string;
+  section: string;
   num_results: number;
 }
 
@@ -25,6 +31,8 @@ export interface SearchNewsType {
   load_paragraph: string;
   source: string;
   pub_date: string;
+  section_name: string;
+  byline: BylineType;
   multimedia: MultimediaType[];
 }
 

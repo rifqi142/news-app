@@ -46,7 +46,7 @@ export const fetchNewsProgramming = createAsyncThunk(
     try {
       const apiUrl = `${
         import.meta.env.VITE_NEWS_SEARCH_URL
-      }?q=programming&page=${page}&begin_date=${dateLastMonthFormat}&end_date=${dateNowFormat}&api-key=${
+      }?q=programming+OR+coding&page=${page}&begin_date=${dateLastMonthFormat}&end_date=${dateNowFormat}&api-key=${
         import.meta.env.VITE_NEWS_API_KEY
       }`;
 
@@ -59,6 +59,7 @@ export const fetchNewsProgramming = createAsyncThunk(
   }
 );
 
+// get search by 2 years ago
 export const fetchNewsSearch = createAsyncThunk(
   "news/fetchNewsSearch",
   async (
@@ -69,7 +70,7 @@ export const fetchNewsSearch = createAsyncThunk(
       const response = await axios.get(
         `${
           import.meta.env.VITE_NEWS_SEARCH_URL
-        }?q=${keyword}&page=${page}&api-key=${
+        }?q=${keyword}&page=${page}&sort=newest&api-key=${
           import.meta.env.VITE_NEWS_API_KEY
         }`
       );

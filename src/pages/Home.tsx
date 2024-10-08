@@ -8,6 +8,7 @@ import NewsPagination from "../components/news/NewsPagination";
 import { AllNewsType } from "../types/type";
 import { setCurrentPage } from "../features/news/newsSlice";
 import { Status } from "../utils/status";
+import NewsCardSkeleton from "../components/news/card/NewsCardSkeleton";
 
 const Home: FC = () => {
   const dispatch = useDispatch();
@@ -24,8 +25,6 @@ const Home: FC = () => {
 
   const handlePageChange = (newPage: number) => {
     newPage += 1;
-    console.log("currentPage", currentPage);
-    console.log("newPage", newPage);
     if (newPage >= 1 && newPage <= totalPages) {
       dispatch(fetchAllNews({ offset: (newPage - 1) * 20 }) as any);
       dispatch(setCurrentPage(newPage));
@@ -62,7 +61,16 @@ const Home: FC = () => {
   };
 
   if (status === Status.LOADING) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <div className="p-5">
+          <div className="flex items-center justify-center text-center">
+            <div className=" mr-4 h-8 bg-gray-300 dark:bg-gray-700 rounded w-40 mb-2"></div>
+          </div>
+          <NewsCardSkeleton />
+        </div>
+      </>
+    );
   }
 
   if (status === Status.FAILED) {
@@ -71,7 +79,10 @@ const Home: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-3xl font-bold mb-4">Latest News</h1>
+      <h1 className="text-5xl xl:text-6xl font-bold mb-4 font-chomsky">
+        Latest News
+      </h1>
+      <hr className="w-48 xl:w-60 mb-4 border-1 border-[#004581] dark:border-[#004581]" />
       {news.length > 0 ? (
         <>
           <NewsCardList

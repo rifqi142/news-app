@@ -10,6 +10,7 @@ import {
   setSearchSavedNews,
 } from "../features/news/newsSearchSlice";
 import { Status } from "../utils/status";
+import NewsCardSkeleton from "../components/news/card/NewsCardSkeleton";
 
 const Programming: FC = () => {
   const dispatch = useDispatch();
@@ -17,26 +18,26 @@ const Programming: FC = () => {
   const { searchNews, status, errorMessage, totalPages, currentPage } =
     useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage || 1);
+  const [page, setPage] = useState(currentPage || 0);
 
   useEffect(() => {
-    console.log("page", page);
-    console.log("Currentpage", currentPage);
-    if (searchNews.length === 0 || page !== currentPage) {
-      dispatch(fetchNewsProgramming(page || 1) as any);
+    if (searchNews.length === 0) {
+      // setTimeout(() => {
+      // }, 3000);
+      dispatch(fetchNewsProgramming(page - 1) as any);
     }
-  }, [dispatch, searchNews.length, page, currentPage]);
+  }, [dispatch, searchNews.length, page]);
 
   useEffect(() => {
-    console.log("Current page from Redux:", currentPage);
-    setPage(currentPage || 1);
+    setPage(currentPage || 0);
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
     if (status === "loading") return;
-
     setPage(pageNumber);
-    dispatch(fetchNewsProgramming(pageNumber) as any);
+    setTimeout(() => {
+      dispatch(fetchNewsProgramming(pageNumber) as any);
+    });
   };
 
   const handleSaveNews = (data: SearchNewsType) => {
@@ -69,7 +70,16 @@ const Programming: FC = () => {
   };
 
   if (status === Status.LOADING) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <div className="p-5">
+          <div className="flex items-center justify-center text-center">
+            <div className=" mr-4 h-8 bg-gray-300 dark:bg-gray-700 rounded w-40 mb-2"></div>
+          </div>
+          <NewsCardSkeleton />
+        </div>
+      </>
+    );
   }
 
   if (status === Status.FAILED) {
@@ -78,7 +88,10 @@ const Programming: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-3xl font-bold mb-4">Programming Last 30 Day News</h1>
+      <h1 className="text-4xl xl:text-6xl font-bold mb-4 font-chomsky">
+        Monthly Programming News
+      </h1>
+      <hr className="w-3/4 xl:w-2/5 mb-4 border-1 border-[#004581] dark:border-[#004581]" />
       {searchNews.length > 0 ? (
         <>
           <NewsCardSearchList

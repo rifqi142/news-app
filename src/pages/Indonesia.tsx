@@ -10,9 +10,12 @@ import {
   setSearchSavedNews,
 } from "../features/news/newsSearchSlice";
 import { Status } from "../utils/status";
+import { useLocation } from "react-router-dom";
+import NewsCardSkeleton from "../components/news/card/NewsCardSkeleton";
 
 const Indonesia: FC = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { searchNews, status, errorMessage, totalPages, currentPage } =
     useSelector((state: RootState) => state.searchNews);
@@ -20,20 +23,24 @@ const Indonesia: FC = () => {
   const [page, setPage] = useState(currentPage || 0);
 
   useEffect(() => {
+    if (status === Status.LOADING) return;
     if (searchNews.length === 0 || page !== currentPage) {
       dispatch(fetchNewsIndonesia(page - 1) as any);
+      // setTimeout(() => {
+      // }, 3000);
     }
-  }, [dispatch, searchNews.length, page]);
+  }, [dispatch, searchNews.length, page, location.pathname]);
 
   useEffect(() => {
     setPage(currentPage || 0);
   }, [currentPage]);
 
   const handlePageChange = (pageNumber: number) => {
-    console.log("pagenumber <<<<<", pageNumber);
     if (status === "loading") return;
     setPage(pageNumber);
-    dispatch(fetchNewsIndonesia(pageNumber - 1) as any);
+    // setTimeout(() => {
+    // }, 3000);
+    dispatch(fetchNewsIndonesia(pageNumber) as any);
   };
 
   const handleSaveNews = (data: SearchNewsType) => {
@@ -66,7 +73,16 @@ const Indonesia: FC = () => {
   };
 
   if (status === Status.LOADING) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <div className="p-5 animate-pulse">
+          <div className="flex items-center justify-center text-center">
+            <div className=" mr-4 h-8 bg-gray-300 dark:bg-gray-700 rounded w-40 mb-2"></div>
+          </div>
+          <NewsCardSkeleton />
+        </div>
+      </>
+    );
   }
 
   if (status === Status.FAILED) {
@@ -75,7 +91,10 @@ const Indonesia: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-3xl font-bold mb-4">Indonesia News</h1>
+      <h1 className="text-5xl xl:text-6xl font-bold mb-4 font-chomsky">
+        Indonesia News
+      </h1>
+      <hr className="w-64 xl:w-80 mb-4 border-1 border-[#004581] dark:border-[#004581]" />
       {searchNews.length > 0 ? (
         <>
           <NewsCardSearchList

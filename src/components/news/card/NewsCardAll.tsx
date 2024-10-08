@@ -5,6 +5,7 @@ import noImage from "/assets/no-image.jpg";
 import { faBookmark as solidBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as regularBookmark } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ArrowRight } from "@phosphor-icons/react";
 
 interface NewsCardProps {
   data: AllNewsType;
@@ -13,6 +14,10 @@ interface NewsCardProps {
 }
 
 const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
+  const iconPeople = "/assets/icon-people.png";
+  const iconCalendar = "/assets/icon-calendar.png";
+  const iconHashtag = "/assets/icon-hashtag.png";
+
   const formattedDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
@@ -77,7 +82,7 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
           <Link
             to={data.url}
             target="_blank"
-            className="hover:text-blue-600 hover:underline"
+            className="hover:text-[#018ABD] hover:underline"
           >
             <h2 className="text-xl font-bold text-justify line-clamp-2 min-h-[3em]">
               {data.title}
@@ -85,20 +90,62 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
           </Link>
         </div>
         <div className="mt-3">
-          <p className="text-gray-500 text-sm">
-            <span className="text-red-600">{data.source}</span> -{" "}
-            {formattedDate(data.published_date)}
-          </p>
+          <div className="flex flex-row mt-2 xl:mt-1">
+            <div className="flex items-center justify-center gap-2">
+              <img
+                src={iconHashtag}
+                alt="icon-hashtag"
+                className="w-5 h-5 inline-block"
+              />
+              <p className="text-sm text-[#004581] font-bold flex items-center justify-center">
+                <span className="bg-gray-200">
+                  #{data.section} - {data.source}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-row mt-2 xl:mt-1">
+            <div className="flex items-center justify-center gap-2">
+              <img
+                src={iconPeople}
+                alt="icon-people"
+                className="w-6 h-6 inline-block"
+              />
+              <p className="text-gray-500 text-sm min-h-[3em] flex items-center justify-center">
+                <span className="text-red-600">
+                  {data.byline ? data.byline : "Anonymous"} <br />
+                </span>
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-row mt-2 xl:mt-1">
+            <div className="flex items-center justify-center gap-2">
+              <img
+                src={iconCalendar}
+                alt="icon-calendar"
+                className="w-6 h-6 inline-block"
+              />
+              <p className="text-gray-500 text-sm flex items-center justify-center">
+                {formattedDate(data.published_date)}
+              </p>
+            </div>
+          </div>
         </div>
         <div className="mt-3 text-justify">
           <p className="text-gray-500 text-sm mt-2 line-clamp-2 min-h-[3em]">
-            {data.abstract}
+            {data.abstract ? data.abstract : "No description"}
           </p>
         </div>
         <div className="mt-5 pb-10 flex justify-end">
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-md">
-            <Link to={data.url} target="_blank">
-              Read More
+          <button className="bg-[#018ABD] text-white py-2 px-4 rounded-md hover:bg-[#004581] flex items-center">
+            <Link
+              to={data.url}
+              target="_blank"
+              className="flex items-center space-x-2"
+            >
+              <span>Read More</span>
+              <ArrowRight />
             </Link>
           </button>
         </div>

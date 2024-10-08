@@ -13,7 +13,7 @@ type NewsCardAllListProps = {
 
 const NewsCardAllList = ({ api, onSaved, onUnSaved }: NewsCardAllListProps) => {
   return (
-    <div className="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 px-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
       {api.response?.results && api.response.results.length > 0 ? (
         api.response.results.map((article, index: number) => (
           <NewsCardAll
