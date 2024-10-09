@@ -1,4 +1,5 @@
 import { FC, useEffect } from "react";
+import { toast, Bounce } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import NewsCardAllList from "../components/news/NewsCardAllList";
@@ -43,6 +44,19 @@ const SavedNews: FC = () => {
     );
     localStorage.setItem("saved-news", JSON.stringify(updatedNews));
 
+    // Show toast notification
+    toast.success("News removed successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
     dispatch(setSavedNews(updatedNews));
   };
 
@@ -54,6 +68,19 @@ const SavedNews: FC = () => {
       (news: SearchNewsType) => news.web_url !== data.web_url
     );
     localStorage.setItem("search-saved-news", JSON.stringify(updatedNews));
+
+    // Show toast notification
+    toast.success("News removed successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
 
     dispatch(setSearchSavedNews(updatedNews));
   };

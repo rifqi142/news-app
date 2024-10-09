@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { toast, Bounce } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchNewsProgramming } from "../features/news/newsThunk";
@@ -35,9 +36,10 @@ const Programming: FC = () => {
   const handlePageChange = (pageNumber: number) => {
     if (status === "loading") return;
     setPage(pageNumber);
-    setTimeout(() => {
-      dispatch(fetchNewsProgramming(pageNumber) as any);
-    });
+    // setTimeout(() => {
+    // });
+    dispatch(fetchNewsProgramming(pageNumber) as any);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSaveNews = (data: SearchNewsType) => {
@@ -52,6 +54,20 @@ const Programming: FC = () => {
     if (!isAlreadySaved) {
       storedSavedNews.push(data);
       localStorage.setItem("searchSavedNews", JSON.stringify(storedSavedNews));
+
+      // Show toast notification
+      toast.success("News saved successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+
       dispatch(savedSearchNews(data));
     }
   };
@@ -66,6 +82,20 @@ const Programming: FC = () => {
     );
 
     localStorage.setItem("searchSavedNews", JSON.stringify(updatedArticles));
+
+    // Show toast notification
+    toast.success("News removed successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
     dispatch(setSearchSavedNews(updatedArticles));
   };
 

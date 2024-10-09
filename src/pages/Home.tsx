@@ -1,4 +1,6 @@
 import { FC, useEffect } from "react";
+import { toast, Bounce } from "react-toastify";
+
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchAllNews } from "../features/news/newsThunk";
@@ -28,6 +30,8 @@ const Home: FC = () => {
     if (newPage >= 1 && newPage <= totalPages) {
       dispatch(fetchAllNews({ offset: (newPage - 1) * 20 }) as any);
       dispatch(setCurrentPage(newPage));
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -43,6 +47,19 @@ const Home: FC = () => {
     if (!isAlreadySaved) {
       storedSavedNews.push(data);
       localStorage.setItem("savedNews", JSON.stringify(storedSavedNews));
+      // Show toast notification
+      toast.success("News saved successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+
       dispatch(savedNews(data));
     }
   };
@@ -57,6 +74,19 @@ const Home: FC = () => {
     );
 
     localStorage.setItem("savedNews", JSON.stringify(updatedArticles));
+    // Show toast notification
+    toast.success("News removed successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
     dispatch(setSavedNews(updatedArticles));
   };
 

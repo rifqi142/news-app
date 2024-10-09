@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { toast, Bounce } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchNewsIndonesia } from "../features/news/newsThunk";
@@ -41,6 +42,7 @@ const Indonesia: FC = () => {
     // setTimeout(() => {
     // }, 3000);
     dispatch(fetchNewsIndonesia(pageNumber) as any);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSaveNews = (data: SearchNewsType) => {
@@ -55,6 +57,20 @@ const Indonesia: FC = () => {
     if (!isAlreadySaved) {
       storedSavedNews.push(data);
       localStorage.setItem("searchSavedNews", JSON.stringify(storedSavedNews));
+
+      // Show toast notification
+      toast.success("News saved successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+
       dispatch(savedSearchNews(data));
     }
   };
@@ -69,6 +85,20 @@ const Indonesia: FC = () => {
     );
 
     localStorage.setItem("searchSavedNews", JSON.stringify(updatedArticles));
+
+    // Show toast notification
+    toast.success("News removed successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
     dispatch(setSearchSavedNews(updatedArticles));
   };
 

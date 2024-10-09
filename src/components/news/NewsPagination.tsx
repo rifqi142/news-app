@@ -28,7 +28,7 @@ const NewsPagination = ({
           ${
             page === 0
               ? "text-gray-400 border-gray-300 cursor-not-allowed"
-              : "text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+              : "text-[#018ABD] border-[#018ABD] hover:bg-[#018ABD] hover:text-white"
           }`}
         onClick={() => handlePageChange(page - 1)}
         disabled={page === 0}

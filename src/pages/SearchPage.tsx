@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { toast, Bounce } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { fetchNewsSearch } from "../features/news/newsThunk";
@@ -47,6 +48,7 @@ const SearchPage: FC = () => {
         page: pageNumber,
       }) as any
     );
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSaveNews = (data: SearchNewsType) => {
@@ -61,6 +63,20 @@ const SearchPage: FC = () => {
     if (!isAlreadySaved) {
       storedSavedNews.push(data);
       localStorage.setItem("searchSavedNews", JSON.stringify(storedSavedNews));
+
+      // Show toast notification
+      toast.success("News saved successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+
       dispatch(savedSearchNews(data));
     }
   };
@@ -75,6 +91,20 @@ const SearchPage: FC = () => {
     );
 
     localStorage.setItem("searchSavedNews", JSON.stringify(updatedArticles));
+
+    // Show toast notification
+    toast.success("News removed successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
     dispatch(setSearchSavedNews(updatedArticles));
   };
 
@@ -97,7 +127,9 @@ const SearchPage: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-3xl font-bold mb-4">Search Results for {keyword}</h1>
+      <h1 className="px-4 text-2xl xl:text-3xl font-bold mb-4">
+        Search Results for {keyword}
+      </h1>
 
       {searchNews.length > 0 ? (
         <>
