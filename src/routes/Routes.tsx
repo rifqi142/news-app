@@ -1,3 +1,4 @@
+import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "./RootLayout/RootLayout";
 import Home from "../pages/Home";
 import Indonesia from "../pages/Indonesia";
@@ -5,7 +6,7 @@ import Programming from "../pages/Programming";
 import SavedNews from "../pages/SavedNews";
 import SearchPage from "../pages/SearchPage";
 
-const Routes = () => [
+const Routes = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
@@ -17,6 +18,6 @@ const Routes = () => [
       { path: "search/:keyword", element: <SearchPage /> },
     ],
   },
-];
+]);
 
 export default Routes;

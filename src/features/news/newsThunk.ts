@@ -50,6 +50,8 @@ export const fetchNewsProgramming = createAsyncThunk(
         import.meta.env.VITE_NEWS_API_KEY
       }`;
 
+      console.log(apiUrl);
+
       const response = await axios.get(apiUrl);
 
       return response;

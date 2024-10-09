@@ -58,15 +58,11 @@ export const newsSlice = createSlice({
       .addCase(fetchAllNews.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
         state.news = action.payload?.data.results || [];
-        
+
         state.totalPages = Math.ceil(500 / 20);
         const itemPerPage = 20;
         const offset = action.meta.arg.offset ?? 0;
         state.currentPage = Math.floor(offset / itemPerPage);
-        // console.log("banyaknya news", state.news.length);
-        // console.log("banyaknya total pages", state.totalPages);
-        // console.log("banyaknya news dalam 1 halaman", action.meta.arg.offset);
-        // state.currentPage = Math.floor(action.meta.arg.offset ?? 0 / 20);
       })
       .addCase(fetchAllNews.rejected, (state, action) => {
         state.status = Status.FAILED;

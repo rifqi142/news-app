@@ -1,15 +1,13 @@
 import { FC } from "react";
-import { useRoutes } from "react-router-dom";
-import { ToastContainer } from "react-toastify"; // Import ToastContainer
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS for Toast notifications
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Routes from "./routes/Routes";
+import { RouterProvider } from "react-router-dom";
 
 const App: FC = () => {
-  const appRoutes = useRoutes(Routes());
-
   return (
     <>
-      {appRoutes}
+      <RouterProvider router={Routes} />
       <ToastContainer
         position="top-right"
         autoClose={3000}

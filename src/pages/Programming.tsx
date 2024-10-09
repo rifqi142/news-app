@@ -22,9 +22,9 @@ const Programming: FC = () => {
   const [page, setPage] = useState(currentPage || 0);
 
   useEffect(() => {
+    console.log("fetching news programming");
+    console.log(searchNews.length);
     if (searchNews.length === 0) {
-      // setTimeout(() => {
-      // }, 3000);
       dispatch(fetchNewsProgramming(page - 1) as any);
     }
   }, [dispatch, searchNews.length, page]);

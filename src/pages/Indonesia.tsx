@@ -24,6 +24,7 @@ const Indonesia: FC = () => {
   const [page, setPage] = useState(currentPage || 0);
 
   useEffect(() => {
+    console.log("fetching news indonesia");
     if (status === Status.LOADING) return;
     if (searchNews.length === 0 || page !== currentPage) {
       dispatch(fetchNewsIndonesia(page - 1) as any);
