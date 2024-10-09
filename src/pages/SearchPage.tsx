@@ -11,12 +11,12 @@ import {
   setSearchSavedNews,
 } from "../features/news/newsSearchSlice";
 import { Status } from "../utils/status";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NewsCardSkeleton from "../components/news/card/NewsCardSkeleton";
 
 const SearchPage: FC = () => {
   const { keyword } = useParams<{ keyword: string }>();
-  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const {
@@ -31,6 +31,21 @@ const SearchPage: FC = () => {
 
   useEffect(() => {
     if (status === Status.LOADING) return;
+
+    if (keyword) {
+      setPage(page);
+      console.log(page);
+      dispatch(
+        fetchNewsSearch({
+          keyword: keyword,
+          page: 0,
+        }) as any
+      );
+    }
+  }, [dispatch, keyword]);
+
+  useEffect(() => {
+    if (status === Status.LOADING) return;
     if (searchNewsSearch.length === 0 || page !== currentPageSearch) {
       dispatch(
         fetchNewsSearch({
@@ -39,7 +54,7 @@ const SearchPage: FC = () => {
         }) as any
       );
     }
-  }, [keyword, navigate, dispatch, searchNewsSearch.length, page]);
+  }, [dispatch, searchNewsSearch.length, page, keyword, currentPageSearch]);
 
   useEffect(() => {
     setPage(currentPageSearch || 0);

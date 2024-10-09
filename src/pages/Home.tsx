@@ -20,7 +20,6 @@ const Home: FC = () => {
   );
 
   useEffect(() => {
-    console.log("fetching news home");
     if (news.length === 0) {
       dispatch(fetchAllNews({ offset: ((currentPage ?? 1) - 1) * 20 }) as any);
     }

@@ -27,7 +27,6 @@ const Programming: FC = () => {
   const [page, setPage] = useState(currentPageProgramming || 0);
 
   useEffect(() => {
-    console.log("fetching news programming");
     console.log(searchNewsProgramming.length);
     if (searchNewsProgramming.length === 0) {
       dispatch(fetchNewsProgramming(page - 1) as any);
