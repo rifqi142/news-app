@@ -19,13 +19,18 @@ const SearchPage: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { searchNews, status, errorMessage, totalPages, currentPage } =
-    useSelector((state: RootState) => state.searchNews);
+  const {
+    searchNewsSearch,
+    status,
+    errorMessage,
+    totalPages,
+    currentPageSearch,
+  } = useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage || 0);
+  const [page, setPage] = useState(currentPageSearch || 0);
 
   useEffect(() => {
-    if (searchNews.length === 0 || page !== currentPage) {
+    if (searchNewsSearch.length === 0 || page !== currentPageSearch) {
       dispatch(
         fetchNewsSearch({
           keyword: keyword || "",
@@ -36,8 +41,8 @@ const SearchPage: FC = () => {
   }, [keyword, navigate]);
 
   useEffect(() => {
-    setPage(currentPage || 0);
-  }, [currentPage]);
+    setPage(currentPageSearch || 0);
+  }, [currentPageSearch]);
 
   const handlePageChange = (pageNumber: number) => {
     if (status === Status.LOADING) return;
@@ -131,12 +136,12 @@ const SearchPage: FC = () => {
         Search Results for {keyword}
       </h1>
 
-      {searchNews.length > 0 ? (
+      {searchNewsSearch.length > 0 ? (
         <>
           <NewsCardSearchList
             api={{
               response: {
-                docs: searchNews,
+                docs: searchNewsSearch,
               },
             }}
             onSaved={handleSaveNews}

@@ -8,21 +8,29 @@ import {
 import { SearchNewsType } from "../../types/type";
 
 interface SearchNewsState {
-  searchNews: SearchNewsType[];
+  searchNewsIndonesia: SearchNewsType[];
+  searchNewsProgramming: SearchNewsType[];
+  searchNewsSearch: SearchNewsType[];
   savedSearchNews: SearchNewsType[];
   status: string;
   errorMessage: string;
   totalPages: number;
-  currentPage?: number;
+  currentPageIndonesia?: number;
+  currentPageProgramming?: number;
+  currentPageSearch?: number;
 }
 
 const initialState: SearchNewsState = {
-  searchNews: [],
+  searchNewsIndonesia: [],
+  searchNewsProgramming: [],
+  searchNewsSearch: [],
   savedSearchNews: [],
   status: Status.IDLE,
   errorMessage: "",
   totalPages: 0,
-  currentPage: 1,
+  currentPageIndonesia: 1,
+  currentPageProgramming: 1,
+  currentPageSearch: 1,
 };
 
 export const searchNewSlice = createSlice({
@@ -49,9 +57,9 @@ export const searchNewSlice = createSlice({
       state.savedSearchNews = action.payload;
     },
 
-    setCurrentPage: (state, action: PayloadAction<number>) => {
-      state.currentPage = action.payload;
-    },
+    // setCurrentPage: (state, action: PayloadAction<number>) => {
+    //   state.currentPage = action.payload;
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -62,10 +70,10 @@ export const searchNewSlice = createSlice({
       })
       .addCase(fetchNewsIndonesia.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
-        state.searchNews = action.payload.data.response.docs;
-
+        state.searchNewsIndonesia = action.payload.data.response.docs;
+        console.log(state.searchNewsIndonesia);
         state.totalPages = action.payload.data.response.meta.hits;
-        state.currentPage = action.meta.arg;
+        state.currentPageIndonesia = action.meta.arg;
       })
       .addCase(fetchNewsIndonesia.rejected, (state, action) => {
         state.status = Status.FAILED;
@@ -80,10 +88,11 @@ export const searchNewSlice = createSlice({
       })
       .addCase(fetchNewsProgramming.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
-        state.searchNews = action.payload.data.response.docs;
+        state.searchNewsProgramming = action.payload.data.response.docs;
+        console.log(state.searchNewsProgramming);
 
         state.totalPages = action.payload.data.response.meta.hits;
-        state.currentPage = action.meta.arg;
+        state.currentPageProgramming = action.meta.arg;
       })
       .addCase(fetchNewsProgramming.rejected, (state, action) => {
         state.status = Status.FAILED;
@@ -98,10 +107,10 @@ export const searchNewSlice = createSlice({
       })
       .addCase(fetchNewsSearch.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
-        state.searchNews = action.payload.data.response.docs;
+        state.searchNewsSearch = action.payload.data.response.docs;
 
         state.totalPages = action.payload.data.response.meta.hits;
-        state.currentPage = action.meta.arg.page;
+        state.currentPageSearch = action.meta.arg.page;
       })
       .addCase(fetchNewsSearch.rejected, (state, action) => {
         state.status = Status.FAILED;
@@ -114,7 +123,7 @@ export const searchNewSlice = createSlice({
 export const {
   savedSearchNews,
   unsaveNews,
-  setCurrentPage,
+  // setCurrentPage,
   setSearchSavedNews,
 } = searchNewSlice.actions;
 

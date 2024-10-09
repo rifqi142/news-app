@@ -18,24 +18,29 @@ const Indonesia: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { searchNews, status, errorMessage, totalPages, currentPage } =
-    useSelector((state: RootState) => state.searchNews);
+  const {
+    searchNewsIndonesia,
+    status,
+    errorMessage,
+    totalPages,
+    currentPageIndonesia,
+  } = useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage || 0);
+  const [page, setPage] = useState(currentPageIndonesia || 0);
 
   useEffect(() => {
     console.log("fetching news indonesia");
     if (status === Status.LOADING) return;
-    if (searchNews.length === 0 || page !== currentPage) {
+    if (searchNewsIndonesia.length === 0 || page !== currentPageIndonesia) {
       dispatch(fetchNewsIndonesia(page - 1) as any);
       // setTimeout(() => {
       // }, 3000);
     }
-  }, [dispatch, searchNews.length, page, location.pathname]);
+  }, [dispatch, searchNewsIndonesia.length, page, location.pathname]);
 
   useEffect(() => {
-    setPage(currentPage || 0);
-  }, [currentPage]);
+    setPage(currentPageIndonesia || 0);
+  }, [currentPageIndonesia]);
 
   const handlePageChange = (pageNumber: number) => {
     if (status === "loading") return;
@@ -126,12 +131,12 @@ const Indonesia: FC = () => {
         Indonesia News
       </h1>
       <hr className="w-64 xl:w-80 mb-4 border-1 border-[#004581] dark:border-[#004581]" />
-      {searchNews.length > 0 ? (
+      {searchNewsIndonesia.length > 0 ? (
         <>
           <NewsCardSearchList
             api={{
               response: {
-                docs: searchNews,
+                docs: searchNewsIndonesia,
               },
             }}
             onSaved={handleSaveNews}

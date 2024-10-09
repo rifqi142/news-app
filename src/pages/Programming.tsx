@@ -16,22 +16,27 @@ import NewsCardSkeleton from "../components/news/card/NewsCardSkeleton";
 const Programming: FC = () => {
   const dispatch = useDispatch();
 
-  const { searchNews, status, errorMessage, totalPages, currentPage } =
-    useSelector((state: RootState) => state.searchNews);
+  const {
+    searchNewsProgramming,
+    status,
+    errorMessage,
+    totalPages,
+    currentPageProgramming,
+  } = useSelector((state: RootState) => state.searchNews);
 
-  const [page, setPage] = useState(currentPage || 0);
+  const [page, setPage] = useState(currentPageProgramming || 0);
 
   useEffect(() => {
     console.log("fetching news programming");
-    console.log(searchNews.length);
-    if (searchNews.length === 0) {
+    console.log(searchNewsProgramming.length);
+    if (searchNewsProgramming.length === 0) {
       dispatch(fetchNewsProgramming(page - 1) as any);
     }
-  }, [dispatch, searchNews.length, page]);
+  }, [dispatch, searchNewsProgramming.length, page]);
 
   useEffect(() => {
-    setPage(currentPage || 0);
-  }, [currentPage]);
+    setPage(currentPageProgramming || 0);
+  }, [currentPageProgramming]);
 
   const handlePageChange = (pageNumber: number) => {
     if (status === "loading") return;
@@ -122,12 +127,12 @@ const Programming: FC = () => {
         Monthly Programming News
       </h1>
       <hr className="w-3/4 xl:w-2/5 mb-4 border-1 border-[#004581] dark:border-[#004581]" />
-      {searchNews.length > 0 ? (
+      {searchNewsProgramming.length > 0 ? (
         <>
           <NewsCardSearchList
             api={{
               response: {
-                docs: searchNews,
+                docs: searchNewsProgramming,
               },
             }}
             onSaved={handleSaveNews}
