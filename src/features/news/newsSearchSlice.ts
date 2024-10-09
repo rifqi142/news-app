@@ -56,10 +56,6 @@ export const searchNewSlice = createSlice({
     setSearchSavedNews: (state, action: PayloadAction<SearchNewsType[]>) => {
       state.savedSearchNews = action.payload;
     },
-
-    // setCurrentPage: (state, action: PayloadAction<number>) => {
-    //   state.currentPage = action.payload;
-    // },
   },
   extraReducers: (builder) => {
     builder
@@ -89,7 +85,6 @@ export const searchNewSlice = createSlice({
       .addCase(fetchNewsProgramming.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
         state.searchNewsProgramming = action.payload.data.response.docs;
-        console.log(state.searchNewsProgramming);
 
         state.totalPages = action.payload.data.response.meta.hits;
         state.currentPageProgramming = action.meta.arg;
@@ -120,11 +115,7 @@ export const searchNewSlice = createSlice({
   },
 });
 
-export const {
-  savedSearchNews,
-  unsaveNews,
-  // setCurrentPage,
-  setSearchSavedNews,
-} = searchNewSlice.actions;
+export const { savedSearchNews, unsaveNews, setSearchSavedNews } =
+  searchNewSlice.actions;
 
 export default searchNewSlice.reducer;

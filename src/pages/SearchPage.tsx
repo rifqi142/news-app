@@ -30,6 +30,7 @@ const SearchPage: FC = () => {
   const [page, setPage] = useState(currentPageSearch || 0);
 
   useEffect(() => {
+    if (status === Status.LOADING) return;
     if (searchNewsSearch.length === 0 || page !== currentPageSearch) {
       dispatch(
         fetchNewsSearch({
@@ -38,7 +39,7 @@ const SearchPage: FC = () => {
         }) as any
       );
     }
-  }, [keyword, navigate]);
+  }, [keyword, navigate, dispatch, searchNewsSearch.length, page]);
 
   useEffect(() => {
     setPage(currentPageSearch || 0);

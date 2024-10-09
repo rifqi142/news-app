@@ -29,12 +29,9 @@ const Indonesia: FC = () => {
   const [page, setPage] = useState(currentPageIndonesia || 0);
 
   useEffect(() => {
-    console.log("fetching news indonesia");
     if (status === Status.LOADING) return;
     if (searchNewsIndonesia.length === 0 || page !== currentPageIndonesia) {
       dispatch(fetchNewsIndonesia(page - 1) as any);
-      // setTimeout(() => {
-      // }, 3000);
     }
   }, [dispatch, searchNewsIndonesia.length, page, location.pathname]);
 
@@ -45,8 +42,6 @@ const Indonesia: FC = () => {
   const handlePageChange = (pageNumber: number) => {
     if (status === "loading") return;
     setPage(pageNumber);
-    // setTimeout(() => {
-    // }, 3000);
     dispatch(fetchNewsIndonesia(pageNumber) as any);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

@@ -59,7 +59,6 @@ export const fetchNewsProgramming = createAsyncThunk(
   }
 );
 
-// get search by 2 years ago
 export const fetchNewsSearch = createAsyncThunk(
   "news/fetchNewsSearch",
   async (

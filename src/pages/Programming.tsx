@@ -41,8 +41,6 @@ const Programming: FC = () => {
   const handlePageChange = (pageNumber: number) => {
     if (status === "loading") return;
     setPage(pageNumber);
-    // setTimeout(() => {
-    // });
     dispatch(fetchNewsProgramming(pageNumber) as any);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
