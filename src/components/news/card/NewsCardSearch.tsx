@@ -41,7 +41,6 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
 
   const handleBookmarkClick = () => {
     setIsSaved((prev) => !prev);
-
     const savedNews = JSON.parse(
       localStorage.getItem("search-saved-news") || "[]"
     );
@@ -63,7 +62,7 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
   };
 
   return (
-    <div className="max-w-sm bg-white rounded-lg shadow-xl overflow-hidden relative mb-5">
+    <div className="max-w-sm bg-white dark:bg-[#1E2732] rounded-lg shadow-xl overflow-hidden relative mb-5">
       {/* Image with bookmark */}
       <div className="relative">
         <Link to={data.web_url} target="_blank">
@@ -80,7 +79,7 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
         {/* Bookmark Icon */}
         <button
           onClick={handleBookmarkClick}
-          className="absolute top-2 right-2 bg-white rounded-full py-2 px-3 shadow-md "
+          className="absolute top-2 right-2 bg-white dark:bg-gray-700 text-black dark:text-white rounded-full py-2 px-3 shadow-md "
         >
           <FontAwesomeIcon icon={isSaved ? solidBookmark : regularBookmark} />
         </button>
@@ -92,9 +91,9 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
           <Link
             to={data.web_url}
             target="_blank"
-            className="hover:text-[#018ABD] hover:underline"
+            className="hover:text-[#018ABD] hover:underline dark:hover:text-[#66D9E8]"
           >
-            <h2 className="text-xl font-bold text-justify line-clamp-2 min-h-[3em]">
+            <h2 className="text-xl font-bold text-justify line-clamp-2 min-h-[3em] text-black dark:text-white">
               {data.headline.main ? data.headline.main : data.abstract}
             </h2>
           </Link>
@@ -107,8 +106,8 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
                 alt="icon-hashtag"
                 className="w-5 h-5 inline-block"
               />
-              <p className="text-sm text-[#004581] font-bold flex items-center justify-center">
-                <span className="bg-gray-200">
+              <p className="text-sm text-[#004581] font-bold dark:text-[#66D9E8] flex items-center justify-center">
+                <span className="bg-gray-200 dark:bg-gray-700">
                   #{data.section_name} - {data.source}
                 </span>
               </p>
@@ -122,8 +121,8 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
                 alt="icon-people"
                 className="w-6 h-6 inline-block"
               />
-              <p className="text-gray-500 text-sm min-h-[3em] flex items-center justify-center">
-                <span className="text-red-600">
+              <p className="text-gray-500 dark:text-gray-200 text-sm min-h-[3em] flex items-center justify-center">
+                <span className="text-red-600 dark:text-white">
                   {data.byline.original ? data.byline.original : "Anonymous"}{" "}
                   <br />
                 </span>
@@ -138,19 +137,19 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
                 alt="icon-calendar"
                 className="w-6 h-6 inline-block"
               />
-              <p className="text-gray-500 text-sm flex items-center justify-center">
+              <p className="text-gray-500 dark:text-gray-200 text-sm flex items-center justify-center">
                 {formattedDate(data.pub_date)}
               </p>
             </div>
           </div>
         </div>
         <div className="mt-3 text-justify">
-          <p className="text-gray-500 text-sm mt-2 line-clamp-2 min-h-[3em]">
+          <p className="text-gray-500 dark:text-gray-200 text-sm mt-2 line-clamp-2 min-h-[3em]">
             {data.abstract}
           </p>
         </div>
         <div className="mt-5 pb-10 flex justify-end">
-          <button className="bg-[#018ABD] text-white py-2 px-4 rounded-md hover:bg-[#004581] flex items-center">
+          <button className="bg-[#018ABD] text-white py-2 px-4 rounded-md hover:bg-[#004581] dark:bg-[#004581] dark:hover:bg-[#003f5a] flex items-center">
             <Link
               to={data.web_url}
               target="_blank"

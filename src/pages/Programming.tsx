@@ -27,7 +27,6 @@ const Programming: FC = () => {
   const [page, setPage] = useState(currentPageProgramming || 0);
 
   useEffect(() => {
-    console.log(searchNewsProgramming.length);
     if (searchNewsProgramming.length === 0) {
       dispatch(fetchNewsProgramming(page - 1) as any);
     }
@@ -120,10 +119,10 @@ const Programming: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-4xl xl:text-6xl font-bold mb-4 font-chomsky">
+      <h1 className="text-4xl xl:text-6xl font-bold mb-4 font-chomsky dark:text-white">
         Monthly Programming News
       </h1>
-      <hr className="w-3/4 xl:w-2/5 mb-4 border-1 border-[#004581] dark:border-[#004581]" />
+      <hr className="w-3/4 xl:w-2/5 mb-4 border-1 border-[#004581] dark:border-gray-600" />
       {searchNewsProgramming.length > 0 ? (
         <>
           <NewsCardSearchList

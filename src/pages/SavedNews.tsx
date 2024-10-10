@@ -104,12 +104,21 @@ const SavedNews: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-5xl xl:text-6xl font-bold mb-4 font-chomsky">
+      <h1 className="text-5xl xl:text-6xl font-bold mb-4 font-chomsky dark:text-white">
         Bookmarked News
       </h1>
-      <hr className="w-64 xl:w-96 mb-4 border-1 border-[#004581] dark:border-[#004581]" />
+      <hr className="w-64 xl:w-96 mb-4 border-1 border-[#004581] dark:border-gray-600" />
       {savedNews.length === 0 && savedSearchNews.length === 0 ? (
-        <p>No saved news available.</p>
+        <div className="flex flex-col items-center justify-center">
+          <img
+            src="/assets/image-not-found.svg"
+            alt="No saved news"
+            className="w-52 xl:w-72 h-52 xl:h-72"
+          />
+          <h1 className="text-2xl font-bold dark:text-white">
+            No saved news found!
+          </h1>
+        </div>
       ) : (
         <>
           {savedNews.length > 0 && (

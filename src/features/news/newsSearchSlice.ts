@@ -67,7 +67,6 @@ export const searchNewSlice = createSlice({
       .addCase(fetchNewsIndonesia.fulfilled, (state, action) => {
         state.status = Status.SUCCESS;
         state.searchNewsIndonesia = action.payload.data.response.docs;
-        console.log(state.searchNewsIndonesia);
         state.totalPages = action.payload.data.response.meta.hits;
         state.currentPageIndonesia = action.meta.arg;
       })

@@ -148,7 +148,7 @@ const SearchPage: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="px-4 text-2xl xl:text-3xl font-bold mb-4">
+      <h1 className="px-4 text-2xl xl:text-3xl font-bold mb-4 dark:text-white">
         Search Results for {keyword}
       </h1>
 

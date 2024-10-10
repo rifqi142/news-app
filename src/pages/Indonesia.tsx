@@ -122,10 +122,10 @@ const Indonesia: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5">
-      <h1 className="text-5xl xl:text-6xl font-bold mb-4 font-chomsky">
+      <h1 className="text-5xl xl:text-6xl font-bold mb-4 font-chomsky dark:text-white">
         Indonesia News
       </h1>
-      <hr className="w-64 xl:w-80 mb-4 border-1 border-[#004581] dark:border-[#004581]" />
+      <hr className="w-64 xl:w-80 mb-4 border-1 border-[#004581] dark:border-gray-600" />
       {searchNewsIndonesia.length > 0 ? (
         <>
           <NewsCardSearchList

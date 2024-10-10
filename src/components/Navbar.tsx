@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { navbarLinks } from "../constants";
 import InputSearch from "./InputSearch";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -9,7 +10,6 @@ const Navbar: FC = () => {
   const [activeLink, setActiveLink] = useState<string>("");
 
   const location = useLocation();
-
   const logoNews = "/assets/news-logo.svg";
   const burgerMenu = "/assets/icon-menu.svg";
 
@@ -38,7 +38,6 @@ const Navbar: FC = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -52,7 +51,7 @@ const Navbar: FC = () => {
   }, []);
 
   return (
-    <header className="navbar bg-[#004581]">
+    <header className="navbar bg-[#004581] dark:bg-[#0f191e] shadow-2xl">
       <nav
         className={`py-1 md:py-2 px-4 xl:px-10 top-0 w-full z-50 sticky transition-shadow duration-300 ${
           isNavbarShadow ? "shadow-lg" : ""
@@ -61,7 +60,7 @@ const Navbar: FC = () => {
       >
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-row items-center">
-            <Link to="/" className=" flex items-center gap-1">
+            <Link to="/" className="flex items-center gap-1">
               <img
                 src={logoNews}
                 alt="news-logo"
@@ -98,17 +97,23 @@ const Navbar: FC = () => {
             </ul>
           </div>
 
+          {/* <div className="flex flex-row gap-3 items-center justify-center"> */}
           <InputSearch />
+
+          {/* </div> */}
+
           {/* Burger Menu for mobile view */}
-          <div className="lg:hidden">
+          <div className="ml-2 flex flex-row gap-2 justify-center items-center">
+            <ThemeToggle />
             <img
               src={burgerMenu}
               alt="burger-menu"
-              className="w-6 h-6 cursor-pointer"
+              className="w-6 h-6 cursor-pointer lg:hidden"
               onClick={toggleMobileMenu}
             />
           </div>
         </div>
+
         <ul
           className={`lg:hidden relative left-0 w-full text-white transition-all duration-300 ease-in-out  z-50 ${
             isMobileMenuOpen

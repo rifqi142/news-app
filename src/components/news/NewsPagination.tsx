@@ -27,8 +27,8 @@ const NewsPagination = ({
         className={`px-2 xl:px-4 py-2 text-sm font-medium border rounded-md 
           ${
             page === 0
-              ? "text-gray-400 border-gray-300 cursor-not-allowed"
-              : "text-[#018ABD] border-[#018ABD] hover:bg-[#018ABD] hover:text-white"
+              ? "text-gray-400 border-gray-300 cursor-not-allowed dark:text-gray-600 dark:border-gray-600"
+              : "text-[#018ABD] border-[#018ABD] hover:bg-[#018ABD] hover:text-white dark:text-[#66D9E8] dark:border-[#66D9E8] hover:dark:bg-[#66D9E8] hover:dark:text-black"
           }`}
         onClick={() => handlePageChange(page - 1)}
         disabled={page === 0}
@@ -42,8 +42,8 @@ const NewsPagination = ({
           className={`px-4 py-2 text-sm font-medium border rounded-md transition-all 
             ${
               pageNumber === page
-                ? "bg-[#018ABD] text-white border-[#018ABD]"
-                : "text-gray-700 border-gray-300 hover:bg-[#018ABD] hover:text-white"
+                ? "bg-[#018ABD] text-white border-[#018ABD] dark:bg-[#66D9E8] dark:text-black"
+                : "text-gray-700 border-gray-300 hover:bg-[#018ABD] hover:text-white dark:text-gray-300 dark:border-gray-600 hover:dark:bg-[#66D9E8] hover:dark:text-black"
             }`}
           onClick={() => handlePageChange(pageNumber)}
         >
@@ -55,8 +55,8 @@ const NewsPagination = ({
         className={`px-4 py-2 text-sm font-medium border rounded-md 
           ${
             page === totalPages - 1
-              ? "text-gray-400 border-gray-300 cursor-not-allowed"
-              : "text-[#018ABD] border-[#018ABD] hover:bg-[#018ABD] hover:text-white"
+              ? "text-gray-400 border-gray-300 cursor-not-allowed dark:text-gray-600 dark:border-gray-600"
+              : "text-[#018ABD] border-[#018ABD] hover:bg-[#018ABD] hover:text-white dark:text-[#66D9E8] dark:border-[#66D9E8] hover:dark:bg-[#66D9E8] hover:dark:text-black"
           }`}
         onClick={() => handlePageChange(page + 1)}
         disabled={page === totalPages - 1}
@@ -66,4 +66,5 @@ const NewsPagination = ({
     </div>
   );
 };
+
 export default NewsPagination;
