@@ -19,6 +19,7 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
   const iconHashtag = "/assets/icon-hashtag.png";
 
   const [isSaved, setIsSaved] = useState(false);
+
   const formattedDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
@@ -30,9 +31,7 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
   };
 
   useEffect(() => {
-    const savedNews = JSON.parse(
-      localStorage.getItem("search-saved-news") || "[]"
-    );
+    const savedNews = JSON.parse(localStorage.getItem("savedNews") || "[]");
     const articleIsSaved = savedNews.some(
       (news: SearchNewsType) => news.web_url === data.web_url
     );
@@ -41,22 +40,17 @@ const NewsCardSearch: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
 
   const handleBookmarkClick = () => {
     setIsSaved((prev) => !prev);
-    const savedNews = JSON.parse(
-      localStorage.getItem("search-saved-news") || "[]"
-    );
+    const savedNews = JSON.parse(localStorage.getItem("savedNews") || "[]");
 
     if (isSaved) {
       const updatedArticles = savedNews.filter(
         (news: SearchNewsType) => news.web_url !== data.web_url
       );
-      localStorage.setItem(
-        "search-saved-news",
-        JSON.stringify(updatedArticles)
-      );
+      localStorage.setItem("savedNews", JSON.stringify(updatedArticles));
       onUnSaved(data);
     } else {
       savedNews.push(data);
-      localStorage.setItem("search-saved-news", JSON.stringify(savedNews));
+      localStorage.setItem("savedNews", JSON.stringify(savedNews));
       onSaved(data);
     }
   };

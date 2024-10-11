@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { AllNewsType } from "../../../types/type";
+import { CardCombineData } from "../../../types/type";
 import { Link } from "react-router-dom";
 import noImage from "/assets/no-image.jpg";
 import { faBookmark as solidBookmark } from "@fortawesome/free-solid-svg-icons";
@@ -8,12 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ArrowRight } from "@phosphor-icons/react";
 
 interface NewsCardProps {
-  data: AllNewsType;
-  onSaved: (data: AllNewsType) => void;
-  onUnSaved: (data: AllNewsType) => void;
+  data: CardCombineData;
+  onSaved: (data: CardCombineData) => void;
+  onUnSaved: (data: CardCombineData) => void;
 }
 
-const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
+const NewsCardCombine: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
   const iconPeople = "/assets/icon-people.png";
   const iconCalendar = "/assets/icon-calendar.png";
   const iconHashtag = "/assets/icon-hashtag.png";
@@ -25,27 +25,34 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
       month: "long",
       day: "numeric",
     };
-    return new Date(dateString).toLocaleDateString("en-us", options);
+    return new Date(dateString).toLocaleDateString("en-US", options);
   };
 
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     const savedNews = JSON.parse(localStorage.getItem("savedNews") || "[]");
-    const articleIsSaved = savedNews.some(
-      (news: AllNewsType) => news.url === data.url
-    );
+    const articleIsSaved = savedNews.some((news: CardCombineData) => {
+      // Periksa berdasarkan URL atau web_url
+      return (
+        (news.url && news.url === data.url) ||
+        (news.web_url && news.web_url === data.web_url)
+      );
+    });
     setIsSaved(articleIsSaved);
-  }, [data.url]);
+  }, [data]);
 
   const handleBookmarkClick = () => {
     setIsSaved((prev) => !prev);
     const savedNews = JSON.parse(localStorage.getItem("savedNews") || "[]");
 
     if (isSaved) {
-      const updatedArticles = savedNews.filter(
-        (news: AllNewsType) => news.url !== data.url
-      );
+      const updatedArticles = savedNews.filter((news: CardCombineData) => {
+        return (
+          (news.url && news.url !== data.url) ||
+          (news.web_url && news.web_url !== data.web_url)
+        );
+      });
       localStorage.setItem("savedNews", JSON.stringify(updatedArticles));
       onUnSaved(data);
     } else {
@@ -59,13 +66,20 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
     <div className="max-w-sm bg-white dark:bg-[#1E2732] rounded-lg shadow-xl overflow-hidden relative mb-5">
       {/* Image with bookmark */}
       <div className="relative">
-        <Link to={data.url} target="_blank">
+        <Link to={data.url || data.web_url || "/"} target="_blank">
           <img
-            src={data.multimedia.length > 0 ? data.multimedia[0].url : noImage}
-            alt={data.title}
+            src={
+              data.multimedia && data.multimedia.length > 0
+                ? data.multimedia[0].url.startsWith("http")
+                  ? data.multimedia[0].url
+                  : `http://www.nytimes.com/${data.multimedia[0].url}`
+                : noImage
+            }
+            alt={data.title || data.headline.main || "No title available"}
             className="w-full aspect-video object-cover"
           />
         </Link>
+
         {/* Bookmark Icon */}
         <button
           onClick={handleBookmarkClick}
@@ -79,12 +93,16 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
       <div className="card-body px-5">
         <div className="mt-3">
           <Link
-            to={data.url}
+            to={data.url || data.web_url || "/"}
             target="_blank"
             className="hover:text-[#018ABD] hover:underline dark:hover:text-[#66D9E8]"
           >
             <h2 className="text-xl font-bold text-justify line-clamp-2 min-h-[3em] text-black dark:text-white">
-              {data.title ? data.title : "No title"}
+              {data.title
+                ? data.title
+                : data.headline?.main
+                ? data.headline.main
+                : "No title"}
             </h2>
           </Link>
         </div>
@@ -98,8 +116,11 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
               />
               <p className="text-sm text-[#004581] font-bold dark:text-[#66D9E8] flex items-center justify-center">
                 <span className="bg-gray-200 dark:bg-gray-700">
-                  #{data.section ? data.section : "No Tags"} -{" "}
-                  {data.source ? data.source : "No Source"}
+                  #
+                  {data.section || data.section_name
+                    ? data.section || data.section_name
+                    : "No Tags"}{" "}
+                  - {data.source ? data.source : "No Source"}
                 </span>
               </p>
             </div>
@@ -114,7 +135,8 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
               />
               <p className="text-sm min-h-[3em] flex items-center justify-center">
                 <span className="text-red-600 dark:text-white">
-                  {data.byline ? data.byline : "Anonymous"} <br />
+                  {data.byline.original ? data.byline.original : "Anonymous"}{" "}
+                  <br />
                 </span>
               </p>
             </div>
@@ -127,7 +149,9 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
                 className="w-6 h-6 inline-block"
               />
               <p className="text-gray-500 dark:text-gray-200 text-sm flex items-center justify-center">
-                {formattedDate(data.published_date)}
+                {data.published_date || data.pub_date
+                  ? formattedDate(data.published_date || data.pub_date || "")
+                  : "No Date"}
               </p>
             </div>
           </div>
@@ -140,7 +164,7 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
         <div className="mt-5 pb-10 flex justify-end">
           <button className="bg-[#018ABD] text-white py-2 px-4 rounded-md hover:bg-[#004581] dark:bg-[#004581] dark:hover:bg-[#003f5a] flex items-center">
             <Link
-              to={data.url}
+              to={data.url || data.web_url || "/"}
               target="_blank"
               className="flex items-center space-x-2"
             >
@@ -154,4 +178,4 @@ const NewsCardAll: FC<NewsCardProps> = ({ data, onSaved, onUnSaved }) => {
   );
 };
 
-export default NewsCardAll;
+export default NewsCardCombine;

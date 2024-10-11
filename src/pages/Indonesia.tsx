@@ -48,7 +48,7 @@ const Indonesia: FC = () => {
 
   const handleSaveNews = (data: SearchNewsType) => {
     const storedSavedNews = JSON.parse(
-      localStorage.getItem("searchSavedNews") || "[]"
+      localStorage.getItem("savedNews") || "[]"
     );
 
     const isAlreadySaved = storedSavedNews.some(
@@ -57,7 +57,7 @@ const Indonesia: FC = () => {
 
     if (!isAlreadySaved) {
       storedSavedNews.push(data);
-      localStorage.setItem("searchSavedNews", JSON.stringify(storedSavedNews));
+      localStorage.setItem("savedNews", JSON.stringify(storedSavedNews));
 
       // Show toast notification
       toast.success("News saved successfully!", {
@@ -78,14 +78,14 @@ const Indonesia: FC = () => {
 
   const handleUnSaveNews = (data: SearchNewsType) => {
     const storedSavedNews = JSON.parse(
-      localStorage.getItem("searchSavedNews") || "[]"
+      localStorage.getItem("savedNews") || "[]"
     );
 
     const updatedArticles = storedSavedNews.filter(
       (news: SearchNewsType) => news.web_url !== data.web_url
     );
 
-    localStorage.setItem("searchSavedNews", JSON.stringify(updatedArticles));
+    localStorage.setItem("savedNews", JSON.stringify(updatedArticles));
 
     // Show toast notification
     toast.success("News removed successfully!", {

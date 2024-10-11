@@ -36,13 +36,25 @@ export interface SearchNewsType {
   multimedia: MultimediaType[];
 }
 
-export interface SavedArticleType {
-  _id: string;
-  isSaved: boolean;
-}
-
 export interface NewsPaginationProps {
   page: number;
   handlePageChange: (type: number) => void;
   totalPages: number;
+}
+
+export interface CardCombineData {
+  title?: string;
+  url?: string;
+  published_date?: string;
+  section: string;
+  num_results?: number;
+  headline: HeadlineType<string>;
+  abstract: string;
+  web_url?: string;
+  load_paragraph: string;
+  source: string;
+  pub_date?: string;
+  section_name: string;
+  byline: BylineType;
+  multimedia: MultimediaType[];
 }
