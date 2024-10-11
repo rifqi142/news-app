@@ -20,7 +20,7 @@ const SavedNews: FC = () => {
       setSavedNews(savedNewsFromStorage);
       setStatus(Status.SUCCESS);
     } catch (error) {
-      console.error("Failed to load saved news:", error);
+      console.error("Failed to load saved news:", errorMessage);
       setErrorMessage("Failed to load saved news.");
       setStatus(Status.FAILED);
     }

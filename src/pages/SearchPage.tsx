@@ -20,13 +20,8 @@ const SearchPage: FC = () => {
 
   const dispatch = useDispatch();
 
-  const {
-    searchNewsSearch,
-    status,
-    errorMessage,
-    totalPages,
-    currentPageSearch,
-  } = useSelector((state: RootState) => state.searchNews);
+  const { searchNewsSearch, status, totalPages, currentPageSearch } =
+    useSelector((state: RootState) => state.searchNews);
 
   const [page, setPage] = useState(currentPageSearch || 0);
 

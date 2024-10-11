@@ -17,13 +17,8 @@ import ErrorMessage from "../components/ErrorMessage";
 const Programming: FC = () => {
   const dispatch = useDispatch();
 
-  const {
-    searchNewsProgramming,
-    status,
-    errorMessage,
-    totalPages,
-    currentPageProgramming,
-  } = useSelector((state: RootState) => state.searchNews);
+  const { searchNewsProgramming, status, totalPages, currentPageProgramming } =
+    useSelector((state: RootState) => state.searchNews);
 
   const [page, setPage] = useState(currentPageProgramming || 0);
 

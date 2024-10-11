@@ -22,7 +22,7 @@ const Indonesia: FC = () => {
   const {
     searchNewsIndonesia,
     status,
-    errorMessage,
+
     totalPages,
     currentPageIndonesia,
   } = useSelector((state: RootState) => state.searchNews);

@@ -16,7 +16,7 @@ import ErrorMessage from "../components/ErrorMessage";
 const Home: FC = () => {
   const dispatch = useDispatch();
 
-  const { news, status, errorMessage, totalPages, currentPage } = useSelector(
+  const { news, status, totalPages, currentPage } = useSelector(
     (state: RootState) => state.news
   );
 
