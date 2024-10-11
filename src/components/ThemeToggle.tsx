@@ -1,6 +1,6 @@
 import { Moon, Sun } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleDarkMode, setDarkMode } from "../features/theme/themeSlice";
+import { setDarkMode } from "../features/theme/themeSlice";
 import { Button } from "./ui/button";
 import { RootState } from "../store/store";
 import { useEffect } from "react";
@@ -21,6 +21,7 @@ const ThemeToggle = () => {
     } else {
       document.documentElement.classList.remove("dark");
     }
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
   return (
     <DropdownMenu>
