@@ -45,7 +45,7 @@ const Home: FC = () => {
       (news: AllNewsType) => news.url === data.url
     );
 
-    if (!isAlreadySaved) {
+    if (isAlreadySaved) {
       storedSavedNews.push(data);
       localStorage.setItem("savedNews", JSON.stringify(storedSavedNews));
       // Show toast notification

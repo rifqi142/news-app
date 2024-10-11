@@ -60,21 +60,20 @@ const Indonesia: FC = () => {
       storedSavedNews.push(data);
       localStorage.setItem("savedNews", JSON.stringify(storedSavedNews));
 
-      // Show toast notification
-      toast.success("News saved successfully!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-
       dispatch(savedSearchNews(data));
     }
+    // Show toast notification
+    toast.success("News saved successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
   };
 
   const handleUnSaveNews = (data: SearchNewsType) => {
