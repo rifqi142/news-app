@@ -11,6 +11,7 @@ import { AllNewsType } from "../types/type";
 import { setCurrentPage } from "../features/news/newsSlice";
 import { Status } from "../utils/status";
 import NewsCardSkeleton from "../components/news/card/NewsCardSkeleton";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Home: FC = () => {
   const dispatch = useDispatch();
@@ -104,7 +105,9 @@ const Home: FC = () => {
   }
 
   if (status === Status.FAILED) {
-    return <p>Error: {errorMessage}</p>;
+    return (
+      <ErrorMessage message="Error got rejected by API. Please Try Again Later" />
+    );
   }
 
   return (
@@ -134,7 +137,16 @@ const Home: FC = () => {
           )}
         </>
       ) : (
-        <p>No news available.</p>
+        <div className="flex flex-col items-center justify-center">
+          <img
+            src="/assets/image-not-found.svg"
+            alt="No saved news"
+            className="w-52 xl:w-72 h-52 xl:h-72"
+          />
+          <h1 className="text-2xl font-bold dark:text-white">
+            No news available!
+          </h1>
+        </div>
       )}
     </div>
   );

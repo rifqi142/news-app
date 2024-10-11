@@ -4,6 +4,7 @@ import NewsCardCombineList from "../components/news/NewsCardCombineList";
 import { CardCombineData } from "../types/type";
 import NewsCardSkeleton from "../components/news/card/NewsCardSkeleton";
 import { Status } from "../utils/status";
+import ErrorMessage from "../components/ErrorMessage";
 
 const SavedNews: FC = () => {
   const [savedNews, setSavedNews] = useState<CardCombineData[]>([]);
@@ -59,7 +60,9 @@ const SavedNews: FC = () => {
   }
 
   if (status === Status.FAILED) {
-    return <p className="text-red-500">Error: {errorMessage}</p>;
+    return (
+      <ErrorMessage message="Error got rejected by API. Please Try Again Later" />
+    );
   }
 
   return (
